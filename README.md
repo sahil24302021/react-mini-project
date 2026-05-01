@@ -25,34 +25,6 @@
   <circle cx="780" cy="190" r="22" fill="#9a5ae8" opacity="0.12"/>
   <circle cx="840" cy="190" r="22" fill="#e85ab4" opacity="0.12"/>
 
-  <!-- Title -->
-  <text x="450" y="106" text-anchor="middle"
-        font-family="Georgia, 'Times New Roman', serif"
-        font-size="54" font-weight="700"
-        fill="#ffffff" letter-spacing="-1.5">Palette Studio</text>
-
-  <!-- Tagline -->
-  <text x="450" y="143" text-anchor="middle"
-        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-        font-size="15" font-weight="400"
-        fill="#8888aa" letter-spacing="0.4">
-    Color Palette Generator · React + TypeScript · Zero Color Libraries
-  </text>
-
-  <!-- Group pill -->
-  <rect x="256" y="168" width="126" height="32" rx="16" fill="#18181e" stroke="#2e2e44" stroke-width="1"/>
-  <text x="319" y="189" text-anchor="middle"
-        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-        font-size="11" font-weight="600"
-        fill="#9999bb" letter-spacing="1.2">GROUP NO. 5</text>
-
-  <!-- School pill -->
-  <rect x="396" y="168" width="196" height="32" rx="16" fill="#18181e" stroke="#2e2e44" stroke-width="1"/>
-  <text x="494" y="189" text-anchor="middle"
-        font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
-        font-size="11" font-weight="400"
-        fill="#9999bb" letter-spacing="0.5">School of Future Tech</text>
-
   <!-- Bottom rainbow bar (faded) -->
   <rect x="0"   y="233" width="129" height="7" fill="#e8685a" opacity="0.35" clip-path="url(#c)"/>
   <rect x="129" y="233" width="128" height="7" fill="#e8a85a" opacity="0.35" clip-path="url(#c)"/>
