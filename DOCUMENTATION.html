@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Palette Studio — Complete Technical Documentation</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    /* ══════════════════ PRINT / PDF STYLES ══════════════════ */
+    @page {
+      size: A4;
+      margin: 20mm 18mm 22mm 18mm;
+    }
+    @media print {
+      body { font-size: 10.5pt; }
+      .page-break { page-break-before: always; }
+      .no-print { display: none; }
+      h1, h2, h3 { page-break-after: avoid; }
+      pre, table { page-break-inside: avoid; }
+    }
+
+    /* ══════════════════ BASE STYLES ══════════════════ */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      line-height: 1.7;
+      color: #1a1a2e;
+      background: #fff;
+      max-width: 210mm;
+      margin: 0 auto;
+      padding: 40px 32px;
+    }
+
+    /* ══════════════════ COVER PAGE ══════════════════ */
+    .cover {
+      min-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      position: relative;
+      background: linear-gradient(135deg, #0a0a12 0%, #1a1a2e 40%, #2d1b4e 70%, #0a0a12 100%);
+      color: white;
+      border-radius: 16px;
+      padding: 60px 40px;
+      margin-bottom: 40px;
+    }
+    .cover-logo {
+      width: 80px; height: 80px;
+      background: linear-gradient(135deg, #c9a96e, #f0d090);
+      border-radius: 20px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 32px; font-weight: 700;
+      color: #0a0a12;
+      margin-bottom: 32px;
+      box-shadow: 0 20px 60px rgba(201,169,110,0.3);
+    }
+    .cover h1 {
+      font-size: 42px; font-weight: 800;
+      letter-spacing: -1.5px;
+      background: linear-gradient(90deg, #c9a96e, #f0d090, #c9a96e);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+    }
+    .cover .subtitle {
+      font-size: 18px; font-weight: 300;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 48px;
+    }
+    .cover-meta {
+      font-size: 12px;
+      color: rgba(255,255,255,0.35);
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 0.5px;
+    }
+    .cover-meta span { display: block; margin: 4px 0; }
+
+    /* ══════════════════ TYPOGRAPHY ══════════════════ */
+    h1 { font-size: 28px; font-weight: 800; letter-spacing: -0.5px; color: #0a0a12; margin: 40px 0 16px; }
+    h2 { font-size: 22px; font-weight: 700; color: #1a1a2e; margin: 32px 0 12px; border-bottom: 2px solid #c9a96e; padding-bottom: 8px; }
+    h3 { font-size: 17px; font-weight: 600; color: #2d1b4e; margin: 24px 0 8px; }
+    h4 { font-size: 14px; font-weight: 600; color: #555; margin: 16px 0 6px; text-transform: uppercase; letter-spacing: 1px; }
+    p { margin: 8px 0 12px; font-size: 13.5px; color: #333; }
+    strong { color: #1a1a2e; }
+
+    /* ══════════════════ TOC ══════════════════ */
+    .toc { background: #f8f7f4; border-radius: 12px; padding: 28px 32px; margin: 20px 0 40px; }
+    .toc h2 { border: none; margin-top: 0; font-size: 20px; }
+    .toc ol { padding-left: 24px; }
+    .toc li { margin: 6px 0; font-size: 14px; color: #444; }
+    .toc li a { color: #2d1b4e; text-decoration: none; font-weight: 500; }
+    .toc li a:hover { color: #c9a96e; }
+
+    /* ══════════════════ CODE ══════════════════ */
+    code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      background: #f0ede6;
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: #8b5cf6;
+    }
+    pre {
+      background: #0e0e14;
+      color: #e0dcd4;
+      padding: 20px 24px;
+      border-radius: 12px;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11.5px;
+      line-height: 1.6;
+      margin: 12px 0 20px;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    pre .comment { color: #6b7280; }
+    pre .keyword { color: #c084fc; }
+    pre .string { color: #86efac; }
+    pre .function { color: #67e8f9; }
+    pre .number { color: #fbbf24; }
+    pre .type { color: #f9a8d4; }
+
+    /* ══════════════════ TABLES ══════════════════ */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0 20px;
+      font-size: 13px;
+    }
+    th {
+      background: #1a1a2e;
+      color: white;
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+    td {
+      padding: 10px 14px;
+      border-bottom: 1px solid #eee;
+      color: #444;
+    }
+    tr:nth-child(even) { background: #faf9f6; }
+
+    /* ══════════════════ CALLOUTS ══════════════════ */
+    .callout {
+      border-left: 4px solid;
+      padding: 14px 18px;
+      border-radius: 0 8px 8px 0;
+      margin: 16px 0;
+      font-size: 13px;
+    }
+    .callout-info { border-color: #3b82f6; background: #eff6ff; }
+    .callout-tip { border-color: #c9a96e; background: #fdf8ef; }
+    .callout-warn { border-color: #f59e0b; background: #fffbeb; }
+
+    /* ══════════════════ DIAGRAMS ══════════════════ */
+    .diagram {
+      background: #f8f7f4;
+      border: 1px solid #e5e2d9;
+      border-radius: 12px;
+      padding: 24px;
+      margin: 16px 0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      line-height: 1.8;
+      white-space: pre;
+      overflow-x: auto;
+      color: #444;
+    }
+    .diagram .highlight { color: #c9a96e; font-weight: 600; }
+    .diagram .muted { color: #999; }
+
+    .file-tree {
+      background: #0e0e14;
+      color: #a0a0b0;
+      padding: 20px 24px;
+      border-radius: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      line-height: 1.9;
+      margin: 12px 0 20px;
+    }
+    .file-tree .folder { color: #c9a96e; font-weight: 600; }
+    .file-tree .file { color: #86efac; }
+    .file-tree .desc { color: #6b7280; font-style: italic; }
+
+    .section-divider {
+      text-align: center;
+      margin: 40px 0;
+      color: #ccc;
+      font-size: 20px;
+      letter-spacing: 8px;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: 600;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .badge-react { background: #e0f2fe; color: #0284c7; }
+    .badge-ts { background: #ede9fe; color: #7c3aed; }
+    .badge-css { background: #fef3c7; color: #d97706; }
+    .badge-anim { background: #fce7f3; color: #db2777; }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 16px 0;
+    }
+    .feature-card {
+      background: #f8f7f4;
+      border: 1px solid #e5e2d9;
+      border-radius: 10px;
+      padding: 16px;
+    }
+    .feature-card h4 { margin: 0 0 6px; font-size: 13px; }
+    .feature-card p { font-size: 12px; margin: 0; color: #666; }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- PAGE 1: COVER PAGE                                                     -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<div class="cover">
+  <div class="cover-logo">P</div>
+  <h1>Palette Studio</h1>
+  <p class="subtitle">Complete Technical Documentation & Architecture Guide</p>
+  <div class="cover-meta">
+    <span>REACT + TYPESCRIPT + FRAMER MOTION + TAILWIND CSS</span>
+    <span>VERSION 1.0.0 · APRIL 2025</span>
+    <span>COMPREHENSIVE GUIDE — 12 PAGES</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- PAGE 2: TABLE OF CONTENTS                                              -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<div class="page-break"></div>
+<div class="toc">
+  <h2>📑 Table of Contents</h2>
+  <ol>
+    <li><a href="#ch1">Project Overview & What the Website Does</a></li>
+    <li><a href="#ch2">Technology Stack & Why Each Was Chosen</a></li>
+    <li><a href="#ch3">Project File & Folder Structure</a></li>
+    <li><a href="#ch4">How the Application Boots (Entry Point Flow)</a></li>
+    <li><a href="#ch5">State Management — The ColorContext System</a></li>
+    <li><a href="#ch6">Color Science — The Core Algorithm Library</a></li>
+    <li><a href="#ch7">Component Architecture — UI Building Blocks</a></li>
+    <li><a href="#ch8">Page-by-Page Feature Breakdown</a></li>
+    <li><a href="#ch9">Animation System — How Every Motion Works</a></li>
+    <li><a href="#ch10">Styling Architecture — CSS Design System</a></li>
+    <li><a href="#ch11">Accessibility & WCAG Compliance Features</a></li>
+    <li><a href="#ch12">How to Run, Build & Extend the Project</a></li>
+  </ol>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- PAGE 3: CHAPTER 1 — PROJECT OVERVIEW                                   -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<div class="page-break"></div>
+<h1 id="ch1">1. Project Overview — What Palette Studio Does</h1>
+
+<p><strong>Palette Studio</strong> is a professional-grade color generation and exploration tool built as a single-page React application. It helps designers and developers instantly generate beautiful, harmonious color palettes based on established color theory.</p>
+
+<h3>Core Features</h3>
+
+<div class="feature-grid">
+  <div class="feature-card">
+    <h4>🎨 Color Generation</h4>
+    <p>One-click random color generation with harmonic palette (complementary, analogous, triadic, split). Press <code>Space</code> or <code>⌘+G</code> to generate.</p>
+  </div>
+  <div class="feature-card">
+    <h4>📋 Multi-Format Copy</h4>
+    <p>Copy any color in HEX, RGB, or HSL format with a single click. Visual feedback via toast notifications.</p>
+  </div>
+  <div class="feature-card">
+    <h4>🌈 Gradient Generator</h4>
+    <p>Create linear, radial, or conic gradients from your generated palette. Adjustable angle with live preview.</p>
+  </div>
+  <div class="feature-card">
+    <h4>💾 Save & Export</h4>
+    <p>Bookmark colors to your collection (persisted in localStorage). Export as CSS, SCSS, Tailwind, JSON, SwiftUI, or Compose.</p>
+  </div>
+  <div class="feature-card">
+    <h4>🔍 Explore by Mood</h4>
+    <p>Browse 80+ curated colors organized by mood (Vermillion, Ember, Cerulean, etc.) and tone (Vivid, Muted, Pastel, Deep).</p>
+  </div>
+  <div class="feature-card">
+    <h4>♿ Accessibility Checker</h4>
+    <p>WCAG contrast ratio display, AA/AAA pass/fail badges, and color vision deficiency simulation (protanopia, deuteranopia, tritanopia).</p>
+  </div>
+</div>
+
+<h3>How a User Interacts with It</h3>
+<p>The typical user flow is:</p>
+<ol style="padding-left: 24px; font-size: 13.5px; color: #444;">
+  <li><strong>Generate</strong> — Press Space bar or click "Generate" to create a random color</li>
+  <li><strong>Explore</strong> — View the 4 harmonic swatches generated automatically</li>
+  <li><strong>Copy</strong> — Click any color/format chip to copy to clipboard</li>
+  <li><strong>Save</strong> — Bookmark favorites to your collection</li>
+  <li><strong>Export</strong> — Download the entire palette as CSS, JSON, or other formats</li>
+  <li><strong>Create Gradients</strong> — Mix palette colors into beautiful gradient CSS</li>
+</ol>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- PAGE 4: CHAPTER 2 — TECHNOLOGY STACK                                   -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<div class="page-break"></div>
+<h1 id="ch2">2. Technology Stack & Why Each Was Chosen</h1>
+
+<table>
+  <tr>
+    <th>Technology</th>
+    <th>Version</th>
+    <th>Role</th>
+    <th>Why This Choice</th>
+  </tr>
+  <tr>
+    <td><span class="badge badge-react">React</span></td>
+    <td>18.3</td>
+    <td>UI Framework</td>
+    <td>Component-based architecture, virtual DOM for efficient re-renders when colors change rapidly</td>
+  </tr>
+  <tr>
+    <td><span class="badge badge-ts">TypeScript</span></td>
+    <td>5.5</td>
+    <td>Type Safety</td>
+    <td>Catches color format errors at compile time. Every color object is fully typed (RGB, HSL, GeneratedColor interfaces)</td>
+  </tr>
+  <tr>
+    <td><span class="badge badge-anim">Framer Motion</span></td>
+    <td>11.3</td>
+    <td>Animations</td>
+    <td>Spring-physics animations, layout transitions, gesture recognition (hover, tap). Powers the 3D card tilt effect</td>
+  </tr>
+  <tr>
+    <td><span class="badge badge-react">React Router</span></td>
+    <td>6.24</td>
+    <td>Routing</td>
+    <td>Client-side navigation between Studio, Explore, Saved, and Docs pages without page reloads</td>
+  </tr>
+  <tr>
+    <td><span class="badge badge-css">Tailwind CSS</span></td>
+    <td>3.4</td>
+    <td>Utility CSS</td>
+    <td>Rapid styling with utility classes. Custom theme extended with project-specific fonts, colors, and animations</td>
+  </tr>
+  <tr>
+    <td>Vite</td>
+    <td>5.3</td>
+    <td>Build Tool</td>
+    <td>Near-instant hot module replacement (HMR). ES modules-based dev server starts in milliseconds</td>
+  </tr>
+</table>
+
+<div class="callout callout-info">
+  <strong>No Backend Required:</strong> Palette Studio runs entirely in the browser. All color math is done client-side with pure JavaScript. Saved colors persist via <code>localStorage</code>. This makes it deployable as a static site on Vercel, Netlify, or GitHub Pages.
+</div>
+
+<h3>How They Work Together</h3>
+<div class="diagram"><span class="muted">User Action (click/keyboard)</span>
+        │
+        ▼
+┌─────────────────────┐
+│   <span class="highlight">React Component</span>     │  ← Renders the UI, handles events
+│   (e.g., HeroSection)│
+└──────────┬──────────┘
+           │ calls generate(), copyText(), etc.
+           ▼
+┌─────────────────────┐
+│   <span class="highlight">ColorContext</span>        │  ← Global state (React Context API)
+│   (state + actions)  │     Manages color, history, saved, toast
+└──────────┬──────────┘
+           │ calls buildGeneratedColor()
+           ▼
+┌─────────────────────┐
+│   <span class="highlight">colorUtils.ts</span>       │  ← Pure math functions
+│   (HEX↔RGB↔HSL,     │     No side effects, fully testable
+│    palette gen, etc) │
+└─────────────────────┘
+           │ returns GeneratedColor object
+           ▼
+┌─────────────────────┐
+│   <span class="highlight">Framer Motion</span>       │  ← Animates color transitions
+│   (spring physics)   │     3D tilt, stagger, layout animations
+└─────────────────────┘</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- PAGE 5: CHAPTER 3 — FILE STRUCTURE                                     -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<div class="page-break"></div>
+<h1 id="ch3">3. Project File & Folder Structure</h1>
+
+<p>The project follows a modular, feature-organized structure. Every file has a clear purpose:</p>
+
+<div class="file-tree">
+<span class="folder">palette-studio/</span>
+├── <span class="file">index.html</span>              <span class="desc">─ HTML shell, loads fonts, mounts React</span>
+├── <span class="file">package.json</span>            <span class="desc">─ Dependencies & scripts (dev, build)</span>
+├── <span class="file">vite.config.ts</span>          <span class="desc">─ Vite config + @ path alias</span>
+├── <span class="file">tailwind.config.js</span>      <span class="desc">─ Custom theme (fonts, colors, animations)</span>
+├── <span class="file">tsconfig.json</span>           <span class="desc">─ TypeScript strict mode + path aliases</span>
+│
+└── <span class="folder">src/</span>                     <span class="desc">─ ALL application source code</span>
+    ├── <span class="file">main.tsx</span>             <span class="desc">─ React entry point (renders App)</span>
+    ├── <span class="file">App.tsx</span>              <span class="desc">─ Router setup (5 routes)</span>
+    ├── <span class="file">index.css</span>            <span class="desc">─ Global CSS (design tokens, glass, etc.)</span>
+    │
+    ├── <span class="folder">types/</span>               <span class="desc">─ TypeScript interfaces</span>
+    │   └── <span class="file">color.ts</span>         <span class="desc">─ RGB, HSL, GeneratedColor, etc.</span>
+    │
+    ├── <span class="folder">utils/</span>               <span class="desc">─ Pure utility functions (no React)</span>
+    │   └── <span class="file">colorUtils.ts</span>    <span class="desc">─ ALL color math (208 lines)</span>
+    │
+    ├── <span class="folder">context/</span>             <span class="desc">─ React Context providers</span>
+    │   └── <span class="file">ColorContext.tsx</span>  <span class="desc">─ Global state management</span>
+    │
+    ├── <span class="folder">components/</span>          <span class="desc">─ Reusable UI components</span>
+    │   ├── <span class="folder">ui/</span>              <span class="desc">─ Atomic design elements</span>
+    │   │   ├── <span class="file">Button.tsx</span>   <span class="desc">─ Animated button (3 variants, 3 sizes)</span>
+    │   │   ├── <span class="file">Icons.tsx</span>    <span class="desc">─ SVG icon library (13 icons)</span>
+    │   │   └── <span class="file">Toast.tsx</span>    <span class="desc">─ Notification popup</span>
+    │   ├── <span class="folder">layout/</span>          <span class="desc">─ Page structure</span>
+    │   │   ├── <span class="file">Navbar.tsx</span>   <span class="desc">─ Responsive nav (pill animation)</span>
+    │   │   ├── <span class="file">Footer.tsx</span>   <span class="desc">─ Footer with dynamic glow</span>
+    │   │   └── <span class="file">PageLayout.tsx</span> <span class="desc">─ Wrapper (nav + main + footer)</span>
+    │   └── <span class="folder">sections/</span>        <span class="desc">─ Homepage sections</span>
+    │       ├── <span class="file">HeroSection.tsx</span>    <span class="desc">─ Main hero with 3D card</span>
+    │       ├── <span class="file">PaletteSection.tsx</span> <span class="desc">─ Harmonic swatches + export</span>
+    │       ├── <span class="file">GradientSection.tsx</span> <span class="desc">─ Gradient generator</span>
+    │       └── <span class="file">HistorySection.tsx</span> <span class="desc">─ Recent colors strip</span>
+    │
+    └── <span class="folder">pages/</span>               <span class="desc">─ Route-level page components</span>
+        ├── <span class="file">HomePage.tsx</span>     <span class="desc">─ Assembles all home sections</span>
+        ├── <span class="file">ExplorePage.tsx</span>  <span class="desc">─ Color grid with mood/tone filters</span>
+        ├── <span class="file">SavedPage.tsx</span>    <span class="desc">─ Bookmarked colors collection</span>
+        ├── <span class="file">DocsPage.tsx</span>     <span class="desc">─ Documentation & keyboard shortcuts</span>
+        └── <span class="file">NotFoundPage.tsx</span> <span class="desc">─ 404 error page</span>
+</div>
+
+<div class="callout callout-tip">
+  <strong>Design Principle:</strong> Components are organized by responsibility — <code>ui/</code> for reusable atoms, <code>layout/</code> for page structure, <code>sections/</code> for homepage content blocks, and <code>pages/</code> for route-level views. This makes the codebase scalable and easy to navigate.
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- PAGE 6: CHAPTER 4 — APPLICATION BOOT FLOW                              -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<div class="page-break"></div>
+<h1 id="ch4">4. How the Application Boots (Entry Point Flow)</h1>
+
+<p>When a user opens Palette Studio, here is exactly what happens, step by step:</p>
+
+<h3>Step 1: index.html Loads</h3>
+<p>The browser loads <code>index.html</code>, which does three things:</p>
+<ul style="padding-left: 24px; font-size: 13px; color: #444;">
+  <li>Sets up SEO meta tags (title, description, Open Graph)</li>
+  <li>Loads three Google Fonts: <strong>Playfair Display</strong> (headings), <strong>JetBrains Mono</strong> (code/labels), <strong>DM Sans</strong> (body text)</li>
+  <li>Creates a <code>&lt;div id="root"&gt;</code> and loads <code>src/main.tsx</code> as an ES module</li>
+</ul>
+
+<h3>Step 2: main.tsx Creates the React Root</h3>
+<pre><span class="comment">// main.tsx — The very first React code that runs</span>
+<span class="keyword">import</span> React <span class="keyword">from</span> <span class="string">'react'</span>
+<span class="keyword">import</span> ReactDOM <span class="keyword">from</span> <span class="string">'react-dom/client'</span>
+<span class="keyword">import</span> App <span class="keyword">from</span> <span class="string">'./App'</span>
+<span class="keyword">import</span> <span class="string">'./index.css'</span>  <span class="comment">// ← This loads ALL global styles</span>
+
+ReactDOM.<span class="function">createRoot</span>(document.<span class="function">getElementById</span>(<span class="string">'root'</span>)!)
+  .<span class="function">render</span>(
+    &lt;React.StrictMode&gt;  <span class="comment">// ← Enables extra development checks</span>
+      &lt;App /&gt;
+    &lt;/React.StrictMode&gt;
+  )</pre>
+
+<h3>Step 3: App.tsx Sets Up Routing & Context</h3>
+<pre><span class="keyword">export default function</span> <span class="function">App</span>() {
+  <span class="keyword">return</span> (
+    &lt;BrowserRouter&gt;           <span class="comment">// ← Enables URL-based navigation</span>
+      &lt;ColorProvider&gt;          <span class="comment">// ← Makes color state available EVERYWHERE</span>
+        &lt;Routes&gt;
+          &lt;Route path="/"        element={&lt;HomePage /&gt;}    /&gt;
+          &lt;Route path="/explore" element={&lt;ExplorePage /&gt;} /&gt;
+          &lt;Route path="/saved"   element={&lt;SavedPage /&gt;}   /&gt;
+          &lt;Route path="/docs"    element={&lt;DocsPage /&gt;}    /&gt;
+          &lt;Route path="*"        element={&lt;NotFoundPage /&gt;}/&gt;
+        &lt;/Routes&gt;
+      &lt;/ColorProvider&gt;
+    &lt;/BrowserRouter&gt;
+  )
+}</pre>
+
+<div class="callout callout-info">
+  <strong>Why ColorProvider wraps everything:</strong> By placing <code>&lt;ColorProvider&gt;</code> outside the <code>&lt;Routes&gt;</code>, the color state persists when navigating between pages. If you generate a color on the home page, it's still active when you visit the Saved page.
+</div>
+
+<h3>Step 4: Each Page Uses PageLayout</h3>
+<p>Every page wraps its content in <code>&lt;PageLayout&gt;</code>, which provides the consistent shell:</p>
+<div class="diagram">┌─────────────────────────────────────┐
+│           <span class="highlight">Navbar</span>                     │  ← Fixed, scrolls to pill shape
+├─────────────────────────────────────┤
+│                                     │
+│           <span class="highlight">{children}</span>                │  ← Page-specific content
+│        (Hero, Palette, etc.)        │
+│                                     │
+├─────────────────────────────────────┤
+│           <span class="highlight">Footer</span>                     │  ← Links, brand, glow line
+├─────────────────────────────────────┤
+│           <span class="highlight">Toast</span>                      │  ← Floating notification popup
+└─────────────────────────────────────┘</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- PAGE 7: CHAPTER 5 — STATE MANAGEMENT                                   -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<div class="page-break"></div>
+<h1 id="ch5">5. State Management — The ColorContext System</h1>
+
+<p>Palette Studio uses <strong>React's Context API</strong> as its state management solution. This is like a global store that any component can read from or write to, without passing props through every level.</p>
+
+<h3>What Data is Stored</h3>
+<table>
+  <tr><th>State</th><th>Type</th><th>Purpose</th></tr>
+  <tr><td><code>color</code></td><td><code>GeneratedColor</code></td><td>The currently active color with all its derived data (hex, rgb, hsl, mood, palette, contrast)</td></tr>
+  <tr><td><code>history</code></td><td><code>GeneratedColor[]</code></td><td>Last 12 generated colors (newest first)</td></tr>
+  <tr><td><code>saved</code></td><td><code>GeneratedColor[]</code></td><td>User's bookmarked collection (max 24, saved to localStorage)</td></tr>
+  <tr><td><code>isGenerating</code></td><td><code>boolean</code></td><td>Prevents double-clicks during the 160ms generation delay</td></tr>
+  <tr><td><code>copied</code></td><td><code>string | null</code></td><td>The text currently in clipboard (for showing ✓ feedback)</td></tr>
+  <tr><td><code>toast</code></td><td><code>ToastData | null</code></td><td>Active toast notification message</td></tr>
+</table>
+
+<h3>How Actions Work</h3>
+
+<h4>generate() — Creating a New Color</h4>
+<pre><span class="keyword">const</span> <span class="function">generate</span> = <span class="function">useCallback</span>(() => {
+  <span class="keyword">if</span> (isGenerating) <span class="keyword">return</span>  <span class="comment">// ← Debounce: prevent rapid-fire</span>
+  <span class="function">setGenerating</span>(<span class="keyword">true</span>)
+  <span class="function">setTimeout</span>(() => {        <span class="comment">// ← 160ms delay for smooth feel</span>
+    <span class="keyword">const</span> next = <span class="function">buildGeneratedColor</span>(<span class="function">generateRandomHex</span>())
+    <span class="function">setColorState</span>(next)                      <span class="comment">// Update current color</span>
+    <span class="function">setHistory</span>(prev => [next, ...prev].<span class="function">slice</span>(<span class="number">0</span>, <span class="number">12</span>))  <span class="comment">// Add to history (cap at 12)</span>
+    <span class="function">setGenerating</span>(<span class="keyword">false</span>)
+  }, <span class="number">160</span>)
+}, [isGenerating])</pre>
+
+<p><strong>Why the 160ms delay?</strong> Without it, color changes feel instantaneous and jarring. The short delay gives Framer Motion time to animate the color transition smoothly, creating a premium "processing" feel.</p>
+
+<h4>copyText() — Clipboard with Fallback</h4>
+<pre><span class="keyword">const</span> <span class="function">copyText</span> = <span class="keyword">async</span> (text: <span class="type">string</span>) => {
+  <span class="keyword">try</span> {
+    <span class="keyword">await</span> navigator.clipboard.<span class="function">writeText</span>(text)  <span class="comment">// Modern API (requires HTTPS)</span>
+  } <span class="keyword">catch</span> {
+    <span class="comment">// Fallback for HTTP or older browsers:</span>
+    <span class="comment">// Create invisible textarea, copy via execCommand, then remove</span>
+    <span class="keyword">const</span> el = document.<span class="function">createElement</span>(<span class="string">'textarea'</span>)
+    el.value = text
+    document.body.<span class="function">appendChild</span>(el)
+    el.<span class="function">select</span>()
+    document.<span class="function">execCommand</span>(<span class="string">'copy'</span>)
+    document.body.<span class="function">removeChild</span>(el)
+  }
+  <span class="function">setCopied</span>(text)           <span class="comment">// Show ✓ icon on the copied element</span>
+  <span class="function">showToast</span>(<span class="string">`Copied ${text}`</span>) <span class="comment">// Show bottom toast notification</span>
+  <span class="comment">// Auto-clear after 2 seconds</span>
+  timerRef.current = <span class="function">setTimeout</span>(() => <span class="function">setCopied</span>(<span class="keyword">null</span>), <span class="number">2000</span>)
+}</pre>
+
+<h4>Keyboard Shortcuts</h4>
+<pre><span class="comment">// Registered in useEffect — listens for keydown globally</span>
+<span class="keyword">const</span> <span class="function">onKey</span> = (e: <span class="type">KeyboardEvent</span>) => {
+  <span class="comment">// Don't trigger if user is typing in an input field</span>
+  <span class="keyword">if</span> (tag === <span class="string">'INPUT'</span> || tag === <span class="string">'TEXTAREA'</span>) <span class="keyword">return</span>
+  <span class="comment">// Space bar OR Ctrl/Cmd+G → generate new color</span>
+  <span class="keyword">if</span> (e.code === <span class="string">'Space'</span> || (e.metaKey && e.key === <span class="string">'g'</span>)) {
+    e.<span class="function">preventDefault</span>()  <span class="comment">// ← Prevent page scroll on Space</span>
+    <span class="function">generate</span>()
+  }
+}</pre>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- PAGE 8: CHAPTER 6 — COLOR SCIENCE                                      -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<div class="page-break"></div>
+<h1 id="ch6">6. Color Science — The Core Algorithm Library</h1>
+
+<p>The file <code>utils/colorUtils.ts</code> contains ALL the color mathematics. It has zero dependencies — everything is pure math. Here's how each algorithm works:</p>
+
+<h3>6.1 Color Space Conversions</h3>
+
+<p>Colors can be represented in multiple formats. The app converts between them freely:</p>
+
+<div class="diagram">    <span class="highlight">HEX</span> (#FF6B35)
+     ↕ hexToRgb() / rgbToHex()
+    <span class="highlight">RGB</span> (255, 107, 53)
+     ↕ rgbToHsl() / hslToHex()
+    <span class="highlight">HSL</span> (20°, 100%, 60%)</div>
+
+<p><strong>hexToRgb()</strong> splits the 6-character hex string into 3 pairs and converts each from base-16 to base-10:<br>
+<code>"FF" → parseInt("FF", 16) → 255</code></p>
+
+<p><strong>rgbToHsl()</strong> uses the standard algorithm: normalize RGB to [0,1], find max/min channels, compute lightness as their average, saturation based on the delta, and hue based on which channel dominates.</p>
+
+<h3>6.2 Mood Classification System</h3>
+
+<p>Every color gets a poetic mood name based on its position on the HSL color wheel:</p>
+
+<table>
+  <tr><th>Hue Range</th><th>Mood Name</th><th>Color Family</th></tr>
+  <tr><td>0° – 15° / 345° – 360°</td><td>Vermillion</td><td>Pure reds</td></tr>
+  <tr><td>15° – 30°</td><td>Ember</td><td>Orange-reds</td></tr>
+  <tr><td>30° – 50°</td><td>Aureate</td><td>Golds & ambers</td></tr>
+  <tr><td>50° – 70°</td><td>Citrine</td><td>Yellows</td></tr>
+  <tr><td>70° – 100°</td><td>Verdant</td><td>Yellow-greens</td></tr>
+  <tr><td>100° – 150°</td><td>Malachite</td><td>Greens</td></tr>
+  <tr><td>150° – 185°</td><td>Glacial</td><td>Teals</td></tr>
+  <tr><td>185° – 220°</td><td>Cerulean</td><td>Blues</td></tr>
+  <tr><td>220° – 255°</td><td>Cobalt</td><td>Deep blues</td></tr>
+  <tr><td>255° – 285°</td><td>Amethyst</td><td>Purples</td></tr>
+  <tr><td>285° – 315°</td><td>Mauve</td><td>Pink-purples</td></tr>
+  <tr><td>315° – 345°</td><td>Carmine</td><td>Hot pinks</td></tr>
+</table>
+<p><strong>Special cases:</strong> Lightness &lt; 8% → "Void" (near-black), Lightness &gt; 93% → "Celestial" (near-white), Saturation &lt; 8% → "Obsidian" or "Lunar" (grays).</p>
+
+<h3>6.3 Harmonic Palette Generation</h3>
+
+<p>This is the heart of the color theory engine. From any base color, it generates 4 harmonics using hue rotation on the color wheel:</p>
+
+<div class="diagram">
+                    0° (base)
+                      │
+          330° ───────┼─────── 30° <span class="highlight">(Analogous +30°)</span>
+         /            │            \
+       /              │              \
+     /                │                \
+   270°               │               90°
+     \                │                /
+       \              │              /
+         \            │            /
+          210° ───────┼─────── 150°
+         <span class="highlight">(Split +210°)</span> │     <span class="highlight">(Triadic +120°)</span>
+                      │
+                   180° <span class="highlight">(Complementary)</span>
+</div>
+
+<p>Each harmony also adjusts saturation (ds) and lightness (dl) slightly for more natural-looking results. Values are clamped to safe ranges (S: 15-95%, L: 12-88%) to prevent washed-out or too-dark outputs.</p>
+
+<h3>6.4 WCAG Contrast Calculation</h3>
+<p>The app calculates the relative luminance using the W3C formula and computes contrast ratios against both white and black backgrounds. The higher ratio is displayed along with AA (≥4.5:1) and AAA (≥7.0:1) compliance badges.</p>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- PAGE 9: CHAPTER 7 — COMPONENT ARCHITECTURE                            -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<div class="page-break"></div>
+<h1 id="ch7">7. Component Architecture — UI Building Blocks</h1>
+
+<p>Components follow the <strong>atomic design</strong> methodology: small reusable atoms → composed into larger organisms → assembled into pages.</p>
+
+<h3>7.1 Button Component (ui/Button.tsx)</h3>
+<p>A versatile animated button with 3 variants and 3 sizes:</p>
+
+<table>
+  <tr><th>Variant</th><th>Style</th><th>Use Case</th></tr>
+  <tr><td><code>primary</code></td><td>Solid white background, dark text, glow shadow</td><td>Main CTAs (Generate, Start)</td></tr>
+  <tr><td><code>ghost</code></td><td>Transparent, subtle hover highlight</td><td>Secondary actions (Explore link)</td></tr>
+  <tr><td><code>outline</code></td><td>Border only, transparent fill</td><td>Tertiary actions (Save, Export)</td></tr>
+</table>
+
+<p><strong>The animation magic:</strong> Uses Framer Motion's <code>whileHover</code> (scale 1.025, lift -2px) and <code>whileTap</code> (scale 0.96) with spring physics (stiffness: 500, damping: 25) for a natural, bouncy feel. The primary variant also has a gloss overlay that appears on hover via CSS gradient.</p>
+
+<h3>7.2 Icons System (ui/Icons.tsx)</h3>
+<p>Instead of importing a heavy icon library, the project uses a custom SVG icon factory:</p>
+
+<pre><span class="comment">// Factory function: creates an icon component from an SVG path string</span>
+<span class="keyword">const</span> <span class="function">ico</span> = (d: <span class="type">string</span>) => ({ size, className }) => (
+  &lt;svg width={size} height={size} viewBox="0 0 24 24" fill="none"&gt;
+    &lt;path d={d} stroke="currentColor" strokeWidth="1.6" /&gt;
+  &lt;/svg&gt;
+)
+
+<span class="comment">// Usage: each icon is just a path string passed to the factory</span>
+<span class="keyword">export const</span> <span class="function">CopyIcon</span> = <span class="function">ico</span>(<span class="string">'M9 9h13v13H9zM5 15H4a2...'</span>)</pre>
+
+<p>This approach keeps the bundle tiny (2KB for 13 icons vs ~50KB+ for a full icon library). Each icon uses <code>stroke="currentColor"</code> so it inherits its color from the parent's CSS <code>color</code> property.</p>
+
+<h3>7.3 Toast Component (ui/Toast.tsx)</h3>
+<p>A floating notification that appears at the bottom-center of the screen when colors are copied or saved:</p>
+<ul style="padding-left: 24px; font-size: 13px; color: #444;">
+  <li><strong>Entry animation:</strong> slides up from 30px below, scales from 0.95 to 1</li>
+  <li><strong>Exit animation:</strong> fades out while sliding down 20px</li>
+  <li><strong>Auto-dismiss:</strong> disappears after 3 seconds (timer managed in ColorContext)</li>
+  <li><strong>Style:</strong> glassmorphic (blur + semi-transparent) with a gold check icon</li>
+</ul>
+
+<h3>7.4 Navbar Component (layout/Navbar.tsx)</h3>
+<p>The most animation-heavy layout component. Key behaviors:</p>
+
+<div class="callout callout-tip">
+  <strong>Scroll-Responsive Pill:</strong> When <code>scrollY > 20px</code>, the navbar smoothly transitions from a full-width transparent bar to a floating 800px-wide pill with glassmorphic blur, rounded corners, and an inner shadow. This is achieved via inline Framer Motion styles that interpolate based on the <code>scrolled</code> state.
+</div>
+
+<p><strong>Active Route Indicator:</strong> Uses Framer Motion's <code>layoutId="nav-underline"</code> — when the active page changes, the golden underline dot smoothly slides to the new link position using shared layout animations (spring: stiffness 380, damping 30).</p>
+
+<p><strong>Mobile Menu:</strong> A hamburger icon (3 lines) animates to an X when clicked. Each line uses independent rotation transforms. The full-screen overlay uses staggered entry (0.06s delay between items) with a lifted easing curve.</p>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- PAGE 10: CHAPTER 8 — PAGE BREAKDOWN                                    -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<div class="page-break"></div>
+<h1 id="ch8">8. Page-by-Page Feature Breakdown</h1>
+
+<h3>8.1 Home Page (HomePage.tsx)</h3>
+<p>The home page is an assembly of 4 sections, each displayed in order:</p>
+
+<h4>Hero Section — The Star of the Show</h4>
+<ul style="padding-left: 24px; font-size: 13px; color: #444;">
+  <li><strong>Dynamic Mesh Background:</strong> Two massive blurred circles (60vw and 70vw) animate infinitely — scaling by ±15-20%, drifting 30-40px horizontally, creating a living ambient glow that matches the current color</li>
+  <li><strong>Shimmer Text:</strong> "Perfected." uses a CSS gradient that animates its <code>background-position</code> from -200% to +200% continuously, creating a moving shine effect</li>
+  <li><strong>3D Color Card:</strong> A card with <code>aspect-ratio: 4/5</code> that tracks mouse position and applies rotateX/rotateY transforms. Uses Framer Motion's <code>useMotionValue</code> + <code>useSpring</code> + <code>useTransform</code> chain for buttery-smooth physics. A radial gradient glare follows the cursor.</li>
+  <li><strong>Format Chips:</strong> Three clickable chips showing the current color in HEX, RGB, and HSL. Each has a hover-reveal copy icon.</li>
+</ul>
+
+<h4>Palette Section — Color Theory in Action</h4>
+<ul style="padding-left: 24px; font-size: 13px; color: #444;">
+  <li>Displays the 4 harmonic swatches in a responsive grid (2 cols mobile → 4 cols desktop)</li>
+  <li><strong>CVD Simulation Toggle:</strong> Switch between Normal, Protanopia, Deuteranopia, Tritanopia to preview how colorblind users see your palette</li>
+  <li><strong>Export Panel:</strong> Tabbed interface with 6 export formats (CSS, SCSS, Tailwind, SwiftUI, Compose, JSON). Copy or download the code.</li>
+  <li><strong>Stagger Animation:</strong> Cards appear with 0.08s delay between each, using the <code>variants</code> pattern for orchestrated group animations</li>
+</ul>
+
+<h4>Gradient Section — CSS Gradient Builder</h4>
+<ul style="padding-left: 24px; font-size: 13px; color: #444;">
+  <li>Combines primary + analogous + triadic colors into a CSS gradient</li>
+  <li>Three gradient types: linear, radial, conic</li>
+  <li>Angle slider (0°–360°) for linear and conic types</li>
+  <li>One-click copy of the full CSS <code>background</code> property</li>
+</ul>
+
+<h4>History Section — Recent Colors Strip</h4>
+<ul style="padding-left: 24px; font-size: 13px; color: #444;">
+  <li>Horizontal scrollable strip of the last 12 generated colors</li>
+  <li>Uses <code>AnimatePresence mode="popLayout"</code> for smooth enter/exit of new entries</li>
+  <li>Each swatch: click to load as current, hover to reveal copy/save actions</li>
+</ul>
+
+<h3>8.2 Explore Page (ExplorePage.tsx)</h3>
+<p>A grid of <strong>80 pre-generated colors</strong> spanning every hue (0°–360° in 18° steps) × 4 saturation profiles (Vivid, Muted, Pastel, Deep). Features:</p>
+<ul style="padding-left: 24px; font-size: 13px; color: #444;">
+  <li><strong>Mood filter:</strong> 12 mood categories to narrow results</li>
+  <li><strong>Tone filter:</strong> Vivid (S:85), Muted (S:35), Pastel (S:55,L:70-85), Deep (S:70,L:20-38)</li>
+  <li>Grid responsively adapts: 3 cols → 4 → 6 → 8 columns</li>
+  <li>Each swatch: hover to see hex code, click to copy, bookmark icon to save</li>
+</ul>
+
+<h3>8.3 Saved Page (SavedPage.tsx)</h3>
+<p>Displays all bookmarked colors as rich cards with mini palette strips. Features: click to reload, copy hex, delete, "Export All CSS" button that downloads a combined CSS file, and an empty state with call-to-action.</p>
+
+<h3>8.4 Docs Page (DocsPage.tsx)</h3>
+<p>Static documentation with 4 sections: Keyboard Shortcuts, Color Theory explanation, Export Formats guide, and Color Format reference (HEX, RGB, HSL).</p>
+
+<h3>8.5 Not Found Page (NotFoundPage.tsx)</h3>
+<p>A styled 404 page showing the current color in a large rounded square with "Page not found" message and a button to return to the studio.</p>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- PAGE 11: CHAPTER 9 — ANIMATION SYSTEM                                  -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<div class="page-break"></div>
+<h1 id="ch9">9. Animation System — How Every Motion Works</h1>
+
+<p>Palette Studio uses <strong>Framer Motion</strong> extensively. Here's a breakdown of every animation technique:</p>
+
+<h3>9.1 Spring Physics</h3>
+<p>Instead of CSS easing curves (ease-in, ease-out), most animations use spring physics with two parameters:</p>
+<table>
+  <tr><th>Parameter</th><th>What It Controls</th><th>Typical Value</th></tr>
+  <tr><td><code>stiffness</code></td><td>How snappy/fast the spring responds</td><td>350–500 (high = snappy)</td></tr>
+  <tr><td><code>damping</code></td><td>How quickly oscillations settle</td><td>25–40 (high = less bounce)</td></tr>
+</table>
+
+<p>Example: Button hover uses <code>stiffness: 500, damping: 25</code> for a quick, subtly bouncy lift.</p>
+
+<h3>9.2 The 3D Tilt Card (HeroSection)</h3>
+<p>This is the most complex animation in the app. Here's how it works step by step:</p>
+
+<pre><span class="comment">// 1. Create motion values that track mouse position (0 to 1)</span>
+<span class="keyword">const</span> x = <span class="function">useMotionValue</span>(<span class="number">0.5</span>)  <span class="comment">// 0.5 = center</span>
+<span class="keyword">const</span> y = <span class="function">useMotionValue</span>(<span class="number">0.5</span>)
+
+<span class="comment">// 2. Apply spring smoothing so movement isn't jittery</span>
+<span class="keyword">const</span> mouseXSpring = <span class="function">useSpring</span>(x, { stiffness: <span class="number">400</span>, damping: <span class="number">40</span> })
+
+<span class="comment">// 3. Map mouse position to rotation angles</span>
+<span class="keyword">const</span> rotateX = <span class="function">useTransform</span>(mouseYSpring, [<span class="number">0</span>, <span class="number">1</span>], [<span class="string">"5deg"</span>, <span class="string">"-5deg"</span>])
+<span class="keyword">const</span> rotateY = <span class="function">useTransform</span>(mouseXSpring, [<span class="number">0</span>, <span class="number">1</span>], [<span class="string">"-5deg"</span>, <span class="string">"5deg"</span>])
+
+<span class="comment">// 4. In onMouseMove, calculate normalized position</span>
+x.<span class="function">set</span>(mouseX / rect.width)   <span class="comment">// 0 at left edge, 1 at right</span>
+y.<span class="function">set</span>(mouseY / rect.height)  <span class="comment">// 0 at top, 1 at bottom</span>
+
+<span class="comment">// 5. On mouse leave, spring back to center</span>
+x.<span class="function">set</span>(<span class="number">0.5</span>); y.<span class="function">set</span>(<span class="number">0.5</span>)  <span class="comment">// ← This triggers a spring animation back</span></pre>
+
+<p>The result: the card tilts toward the cursor (max ±5°), with a radial gradient "glare" that follows the mouse position, creating a realistic 3D reflection effect.</p>
+
+<h3>9.3 Staggered List Animations</h3>
+<p>The palette swatches use Framer Motion's <strong>variant orchestration</strong> pattern:</p>
+<pre><span class="comment">// Parent container variant — staggers children by 0.08s</span>
+<span class="keyword">const</span> container = {
+  hidden: {},
+  show: { transition: { staggerChildren: <span class="number">0.08</span> } }
+}
+
+<span class="comment">// Each child starts 24px below, scaled to 93%, then springs in</span>
+<span class="keyword">const</span> item = {
+  hidden: { opacity: <span class="number">0</span>, y: <span class="number">18</span>, scale: <span class="number">0.93</span> },
+  show: { opacity: <span class="number">1</span>, y: <span class="number">0</span>, scale: <span class="number">1</span>,
+           transition: { ease: [<span class="number">0.16</span>, <span class="number">1</span>, <span class="number">0.3</span>, <span class="number">1</span>], duration: <span class="number">0.55</span> } }
+}</pre>
+
+<h3>9.4 Layout Animations</h3>
+<p><strong>Navbar underline:</strong> Uses <code>layoutId="nav-underline"</code> — shared layout animations automatically interpolate position and size when the active route changes.</p>
+<p><strong>History strip:</strong> <code>AnimatePresence mode="popLayout"</code> smoothly manages entry/exit of color swatches as new ones are generated.</p>
+
+<h3>9.5 CSS Animations (tailwind.config.js)</h3>
+<table>
+  <tr><th>Animation</th><th>Keyframes</th><th>Used In</th></tr>
+  <tr><td><code>shimmer</code></td><td>Background position -200% → +200%</td><td>Gold text shimmer effect</td></tr>
+  <tr><td><code>float</code></td><td>translateY(0) → -14px → 0</td><td>Floating elements</td></tr>
+  <tr><td><code>pulse-soft</code></td><td>opacity 0.5 → 1 → 0.5</td><td>Breathing indicators</td></tr>
+  <tr><td><code>slide-up</code></td><td>translateY(22px) → 0, fade in</td><td>Section entry</td></tr>
+  <tr><td><code>marquee</code></td><td>translateX(0) → -50%</td><td>Scrolling ticker (if needed)</td></tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- PAGE 12: CHAPTER 10 — STYLING                                          -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<div class="page-break"></div>
+<h1 id="ch10">10. Styling Architecture — CSS Design System</h1>
+
+<h3>10.1 Design Tokens (CSS Custom Properties)</h3>
+<p>All colors and spacing are defined as CSS variables in <code>:root</code>:</p>
+
+<table>
+  <tr><th>Token</th><th>Value</th><th>Purpose</th></tr>
+  <tr><td><code>--canvas</code></td><td><code>#060608</code></td><td>Page background (near-black with blue tint)</td></tr>
+  <tr><td><code>--surface</code></td><td><code>#0e0e12</code></td><td>Card backgrounds (slightly lighter)</td></tr>
+  <tr><td><code>--surface-2</code></td><td><code>#16161c</code></td><td>Secondary surfaces</td></tr>
+  <tr><td><code>--surface-3</code></td><td><code>#1e1e26</code></td><td>Elevated surfaces (code blocks)</td></tr>
+  <tr><td><code>--border</code></td><td><code>rgba(255,255,255,0.06)</code></td><td>Subtle dividers</td></tr>
+  <tr><td><code>--text</code></td><td><code>#ede8e0</code></td><td>Primary text (warm off-white)</td></tr>
+  <tr><td><code>--text-2</code></td><td><code>rgba(237,232,224,0.5)</code></td><td>Secondary text</td></tr>
+  <tr><td><code>--text-3</code></td><td><code>rgba(237,232,224,0.22)</code></td><td>Tertiary/muted text</td></tr>
+  <tr><td><code>--gold</code></td><td><code>#c9a96e</code></td><td>Accent color (warm gold)</td></tr>
+</table>
+
+<h3>10.2 Glassmorphism System</h3>
+<p>The <code>.glass</code> CSS class creates a frosted-glass effect used throughout the app:</p>
+
+<pre><span class="comment">/* The glass effect — semi-transparent with blur */</span>
+.glass {
+  background: rgba(<span class="number">255</span>,<span class="number">255</span>,<span class="number">255</span>,<span class="number">0.02</span>);   <span class="comment">/* 2% white overlay */</span>
+  border: <span class="number">1</span>px solid var(--border);  <span class="comment">/* Subtle edge */</span>
+  backdrop-filter: blur(<span class="number">24</span>px);     <span class="comment">/* THE key property — blurs what's behind */</span>
+  box-shadow: <span class="number">0</span> <span class="number">4</span>px <span class="number">30</span>px rgba(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0.1</span>);  <span class="comment">/* Depth */</span>
+}
+
+<span class="comment">/* Interactive glass — responds to hover */</span>
+.glass-hover:hover {
+  background: rgba(<span class="number">255</span>,<span class="number">255</span>,<span class="number">255</span>,<span class="number">0.06</span>);  <span class="comment">/* Slightly more visible */</span>
+  transform: translateY(-<span class="number">2</span>px);          <span class="comment">/* Lift effect */</span>
+  box-shadow: <span class="number">0</span> <span class="number">10</span>px <span class="number">40</span>px rgba(<span class="number">0</span>,<span class="number">0</span>,<span class="number">0</span>,<span class="number">0.2</span>);
+}</pre>
+
+<h3>10.3 Noise Texture Overlay</h3>
+<p>A subtle film grain texture is applied over the entire page using a <code>::before</code> pseudo-element on the body. It uses an inline SVG with an <code>feTurbulence</code> filter to generate fractal noise at 3.2% opacity. This adds a premium, tactile quality to flat dark backgrounds.</p>
+
+<h3>10.4 Typography System</h3>
+<table>
+  <tr><th>Font</th><th>Tailwind Class</th><th>Used For</th></tr>
+  <tr><td>Playfair Display</td><td><code>font-display</code></td><td>Large headings, mood names (serif, elegant)</td></tr>
+  <tr><td>JetBrains Mono</td><td><code>font-mono</code></td><td>Color codes, labels, keyboard shortcuts</td></tr>
+  <tr><td>DM Sans</td><td><code>font-ui</code></td><td>Body text, buttons, navigation (clean sans-serif)</td></tr>
+</table>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- PAGE 13: CHAPTER 11 — ACCESSIBILITY                                    -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<div class="page-break"></div>
+<h1 id="ch11">11. Accessibility & WCAG Compliance</h1>
+
+<h3>11.1 Contrast Ratio Checker</h3>
+<p>Every generated color displays its WCAG contrast ratio directly on the 3D card. The calculation follows the W3C spec:</p>
+
+<pre><span class="comment">// Step 1: Linearize sRGB values (remove gamma)</span>
+<span class="keyword">const</span> <span class="function">linearize</span> = (c) =>
+  c <= <span class="number">0.03928</span>
+    ? c / <span class="number">12.92</span>
+    : Math.<span class="function">pow</span>((c + <span class="number">0.055</span>) / <span class="number">1.055</span>, <span class="number">2.4</span>)
+
+<span class="comment">// Step 2: Calculate relative luminance</span>
+L = <span class="number">0.2126</span> * R + <span class="number">0.7152</span> * G + <span class="number">0.0722</span> * B
+
+<span class="comment">// Step 3: Contrast ratio = (lighter + 0.05) / (darker + 0.05)</span>
+<span class="comment">// Tested against both white (#FFF) and black (#000)</span>
+<span class="comment">// The HIGHER ratio is displayed</span></pre>
+
+<p>The badge shows green for AA-passing ratios (≥4.5:1) and red for failing ones.</p>
+
+<h3>11.2 Color Vision Deficiency (CVD) Simulation</h3>
+<p>The palette section includes a toggle to simulate three types of color blindness:</p>
+
+<table>
+  <tr><th>Type</th><th>Affects</th><th>Prevalence</th><th>What Changes</th></tr>
+  <tr><td>Protanopia</td><td>Red cones</td><td>~1.3% males</td><td>Reds appear darker/brown, can't distinguish red from green</td></tr>
+  <tr><td>Deuteranopia</td><td>Green cones</td><td>~1.2% males</td><td>Greens appear beige/yellow, similar red-green confusion</td></tr>
+  <tr><td>Tritanopia</td><td>Blue cones</td><td>~0.01% all</td><td>Blues appear green, yellows appear pink/light</td></tr>
+</table>
+
+<p>The simulation uses transformation matrices (Brettel, Viénot & Mollon 1997) that remap RGB channels based on how the affected photoreceptors process light. This helps designers ensure their palettes are distinguishable for all users.</p>
+
+<h3>11.3 Other Accessibility Measures</h3>
+<ul style="padding-left: 24px; font-size: 13px; color: #444;">
+  <li><strong>Keyboard navigation:</strong> Space and ⌘+G shortcuts for color generation (disabled when typing in inputs)</li>
+  <li><strong>Clipboard fallback:</strong> Uses <code>execCommand('copy')</code> when the modern Clipboard API isn't available</li>
+  <li><strong>Semantic HTML:</strong> Proper <code>&lt;section&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;footer&gt;</code> landmarks</li>
+  <li><strong>Aria labels:</strong> Mobile menu button has <code>aria-label="Menu"</code></li>
+  <li><strong>Dynamic text colors:</strong> Text on color blocks automatically switches between dark and light based on the <code>isLight</code> calculation</li>
+</ul>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- PAGE 14: CHAPTER 12 — HOW TO RUN & EXTEND                              -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<div class="page-break"></div>
+<h1 id="ch12">12. How to Run, Build & Extend the Project</h1>
+
+<h3>12.1 Running the Development Server</h3>
+<pre><span class="comment"># Install dependencies (first time only)</span>
+npm install
+
+<span class="comment"># Start the development server with hot reload</span>
+npm run dev
+<span class="comment"># → Opens at http://localhost:5173</span>
+
+<span class="comment"># Build for production</span>
+npm run build
+<span class="comment"># → Outputs optimized files to dist/</span>
+
+<span class="comment"># Preview the production build locally</span>
+npm run preview</pre>
+
+<h3>12.2 Adding a New Page</h3>
+<p>To add a new page (e.g., an "About" page):</p>
+<pre><span class="comment">// 1. Create the file: src/pages/AboutPage.tsx</span>
+<span class="keyword">import</span> PageLayout <span class="keyword">from</span> <span class="string">'@/components/layout/PageLayout'</span>
+
+<span class="keyword">export default function</span> <span class="function">AboutPage</span>() {
+  <span class="keyword">return</span> (
+    &lt;PageLayout&gt;
+      &lt;h1&gt;About Palette Studio&lt;/h1&gt;
+    &lt;/PageLayout&gt;
+  )
+}
+
+<span class="comment">// 2. Add route in App.tsx</span>
+&lt;Route path="/about" element={&lt;AboutPage /&gt;} /&gt;
+
+<span class="comment">// 3. Add nav link in Navbar.tsx's NAV_LINKS array</span>
+{ label: 'About', href: '/about' }</pre>
+
+<h3>12.3 Adding a New Export Format</h3>
+<pre><span class="comment">// 1. Add type in types/color.ts</span>
+<span class="keyword">export type</span> <span class="type">ExportFormat</span> = <span class="string">'css'</span> | <span class="string">'json'</span> | ... | <span class="string">'flutter'</span>
+
+<span class="comment">// 2. Add formatter in utils/colorUtils.ts</span>
+<span class="keyword">export function</span> <span class="function">exportFlutter</span>(color: <span class="type">GeneratedColor</span>): <span class="type">string</span> {
+  <span class="keyword">return</span> <span class="string">`Color(0xFF${color.hex.replace('#','')})`</span>
+}
+
+<span class="comment">// 3. Add tab in PaletteSection.tsx's format list</span></pre>
+
+<h3>12.4 Adding a New Harmony Type</h3>
+<pre><span class="comment">// In types/color.ts, extend the union type:</span>
+<span class="keyword">export type</span> <span class="type">HarmonyType</span> = ... | <span class="string">'tetradic'</span>
+
+<span class="comment">// In colorUtils.ts, add to the defs array:</span>
+{ relation: <span class="string">'tetradic'</span>, dh: <span class="number">90</span>, ds: <span class="number">0</span>, dl: <span class="number">0</span> }</pre>
+
+<h3>12.5 Key Design Decisions Explained</h3>
+<table>
+  <tr><th>Decision</th><th>Reasoning</th></tr>
+  <tr><td>Context API over Redux</td><td>The state is simple (one color + lists). Redux would add unnecessary complexity and boilerplate for this scope.</td></tr>
+  <tr><td>Tailwind + CSS Variables hybrid</td><td>Tailwind for rapid layout; CSS variables for dynamic theming (colors change at runtime, not build time).</td></tr>
+  <tr><td>Pure math, no color library</td><td>Keeps the bundle small. Color conversion math is well-documented and stable — no need for a dependency.</td></tr>
+  <tr><td>Custom SVG icons</td><td>13 icons at 2KB vs. installing react-icons (100KB+). Path strings are tiny and tree-shaking is guaranteed.</td></tr>
+  <tr><td>localStorage persistence</td><td>No backend needed. Saved colors survive page refreshes. Simple, privacy-friendly, and free.</td></tr>
+  <tr><td>HSL for random generation</td><td>Random RGB produces muddy colors. HSL with constrained S/L ranges guarantees vivid, usable results.</td></tr>
+</table>
+
+<div class="section-divider">· · · · ·</div>
+
+<div style="text-align: center; padding: 40px 0;">
+  <div style="display: inline-block; background: linear-gradient(135deg, #c9a96e, #f0d090); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 28px; font-weight: 800; letter-spacing: -1px; margin-bottom: 12px;">
+    End of Documentation
+  </div>
+  <p style="color: #999; font-size: 13px;">
+    Palette Studio — Built with React, TypeScript, Framer Motion & Tailwind CSS<br>
+    <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: #bbb;">Total source files: 16 · Total lines of code: ~1,800 · Zero external API dependencies</span>
+  </p>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<!-- PRINT BUTTON (hidden in PDF)                                           -->
+<!-- ═══════════════════════════════════════════════════════════════════════ -->
+<div class="no-print" style="position: fixed; bottom: 24px; right: 24px; z-index: 100;">
+  <button onclick="window.print()" style="
+    background: linear-gradient(135deg, #1a1a2e, #2d1b4e);
+    color: white;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  ">
+    📄 Save as PDF (Ctrl+P)
+  </button>
+</div>
+
+</body>
+</html>
