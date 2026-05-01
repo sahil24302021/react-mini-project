@@ -188,6 +188,6 @@ All color state lives in a single `ColorContext` — no Redux, just React's buil
 
 **DSA Mini Project — Case Study 5 · School of Future Tech · Group No. 5**
 
-[🚀 Live Demo](https://react-mini-project-flame-seven.vercel.app/) · Sahil Kumar · Mukesh Choudhary · Shivam Sah
+[🚀 Live Demo](https://react-mini-project-flame-seven.vercel.app/) · Sahil Kumar 
 
 </div>
