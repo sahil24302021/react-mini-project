@@ -1,5 +1,5 @@
 /**
- * Navbar.tsx — Responsive Navigation Bar
+ * Navbar.jsx — Responsive Navigation Bar
  * 
  * Features:
  *   - Scroll-responsive: transforms from full-width transparent bar to a floating
@@ -65,7 +65,7 @@ export default function Navbar() {
               P
             </motion.div>
             <span className="font-ui font-semibold text-[15px] tracking-tight text-[var(--text)]">
-              Palette<span className="text-[var(--text-3)]"> Studio</span>
+              Palette<span className="text-[var(--text-3)]">Studio</span>
             </span>
           </Link>
 

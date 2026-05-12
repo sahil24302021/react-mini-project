@@ -3,14 +3,11 @@ import { motion } from 'framer-motion'
 import { useColor } from '@/context/ColorContext'
 import { CopyIcon, CheckIcon } from '@/components/ui/Icons'
 
-type GradType = 'linear' | 'radial' | 'conic'
-
 export default function GradientSection() {
   const { color, copied, copyText } = useColor()
-  const [type, setType] = useState<GradType>('linear')
+  const [type, setType] = useState('linear')
   const [angle, setAngle] = useState(135)
 
-  // Use primary and a couple of palette colors
   const c1 = color.hex
   const c2 = color.palette.find(p => p.relation === 'analogous')?.hex || color.palette[0].hex
   const c3 = color.palette.find(p => p.relation === 'triadic')?.hex   || color.palette[1].hex
@@ -32,16 +29,14 @@ export default function GradientSection() {
       </div>
 
       <div className="relative rounded-3xl overflow-hidden shadow-2xl border" style={{ borderColor: 'var(--border)' }}>
-        {/* The Preview Area */}
         <motion.div
           animate={{ background: cssBackground }}
           className="w-full min-h-[400px] transition-colors duration-500"
         />
 
-        {/* Controls Overlay */}
         <div className="absolute inset-x-0 bottom-0 p-6 flex flex-col md:flex-row items-end md:items-center justify-between gap-6 pointer-events-none">
           <div className="glass px-2 py-2 rounded-2xl flex items-center gap-1 pointer-events-auto">
-            {(['linear', 'radial', 'conic'] as GradType[]).map(t => (
+            {['linear', 'radial', 'conic'].map(t => (
               <button
                 key={t}
                 onClick={() => setType(t)}

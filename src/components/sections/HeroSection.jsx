@@ -4,7 +4,7 @@ import { formatRgb, formatHsl } from '@/utils/colorUtils'
 import { ShuffleIcon, SpinnerIcon, CopyIcon, CheckIcon, BookmarkIcon, ArrowRightIcon } from '@/components/ui/Icons'
 import Button from '@/components/ui/Button'
 import { Link } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 
 export default function HeroSection() {
   const { color, isGenerating, generate, copyText, copied, saveColor } = useColor()
@@ -15,32 +15,36 @@ export default function HeroSection() {
     { label: 'HSL', value: formatHsl(color.hsl) },
   ]
 
-  // Extract a secondary color for the mesh background
   const secColor = color.palette[0]?.hex || color.hex
 
   return (
     <section className="relative min-h-[calc(100vh-64px)] flex flex-col justify-center overflow-hidden">
-      {/* Dynamic Ambient Mesh */}
-      <motion.div
-        className="absolute inset-0 pointer-events-none"
-        aria-hidden
-      >
+      <div className="absolute inset-0 pointer-events-none" aria-hidden>
         <motion.div
-          className="absolute rounded-full blur-[120px] opacity-20 mix-blend-screen will-change-transform"
+          className="absolute will-change-transform"
           style={{ width: '60vw', height: '60vw', top: '-10%', left: '-10%' }}
-          animate={{ backgroundColor: color.hex, scale: [1, 1.15, 1], x: [0, 40, 0], y: [0, 20, 0] }}
+          animate={{ scale: [1, 1.15, 1], x: [0, 40, 0], y: [0, 20, 0] }}
           transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
-        />
+        >
+          <div
+            className="w-full h-full rounded-full blur-[120px] opacity-25 transition-colors duration-1000"
+            style={{ backgroundColor: color.hex }}
+          />
+        </motion.div>
         <motion.div
-          className="absolute rounded-full blur-[140px] opacity-[0.12] mix-blend-screen will-change-transform"
+          className="absolute will-change-transform"
           style={{ width: '70vw', height: '70vw', bottom: '-20%', right: '-10%' }}
-          animate={{ backgroundColor: secColor, scale: [1, 1.2, 1], x: [0, -30, 0] }}
+          animate={{ scale: [1, 1.2, 1], x: [0, -30, 0] }}
           transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-        />
-      </motion.div>
+        >
+          <div
+            className="w-full h-full rounded-full blur-[140px] opacity-[0.18] transition-colors duration-1000"
+            style={{ backgroundColor: secColor }}
+          />
+        </motion.div>
+      </div>
 
       <div className="relative z-10 max-w-6xl mx-auto px-5 md:px-8 pt-32 pb-20 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-        {/* Left — text + controls */}
         <div className="flex flex-col gap-8">
           <motion.div
             initial={{ opacity: 0, y: 24 }}
@@ -84,7 +88,6 @@ export default function HeroSection() {
             </p>
           </motion.div>
 
-          {/* Format chips */}
           <motion.div
             className="flex flex-wrap gap-2.5"
             initial={{ opacity: 0, y: 16 }}
@@ -113,7 +116,6 @@ export default function HeroSection() {
             })}
           </motion.div>
 
-          {/* CTA row */}
           <motion.div
             className="flex items-center gap-4 flex-wrap mt-2"
             initial={{ opacity: 0, y: 16 }}
@@ -143,7 +145,6 @@ export default function HeroSection() {
           </motion.div>
         </div>
 
-        {/* Right — big color card */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -157,7 +158,7 @@ export default function HeroSection() {
   )
 }
 
-function ColorCard({ color, onCopy, copied }: { color: ReturnType<typeof useColor>['color']; onCopy: (t: string) => void; copied: string | null }) {
+function ColorCard({ color, onCopy, copied }) {
   const textC = color.isLight ? 'rgba(0,0,0,0.85)' : 'rgba(255,255,255,0.9)'
   const subC  = color.isLight ? 'rgba(0,0,0,0.45)' : 'rgba(255,255,255,0.4)'
   const isCopied = copied === color.hex
@@ -174,7 +175,7 @@ function ColorCard({ color, onCopy, copied }: { color: ReturnType<typeof useColo
   const glareX = useTransform(mouseXSpring, [0, 1], ["0%", "100%"])
   const glareY = useTransform(mouseYSpring, [0, 1], ["0%", "100%"])
 
-  function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
+  function handleMouseMove(e) {
     const rect = e.currentTarget.getBoundingClientRect()
     const mouseX = e.clientX - rect.left
     const mouseY = e.clientY - rect.top
@@ -198,13 +199,10 @@ function ColorCard({ color, onCopy, copied }: { color: ReturnType<typeof useColo
       onClick={() => onCopy(color.hex)}
     >
       <div style={{ aspectRatio: '4/5' }} className="w-full relative">
-        {/* Background */}
         <motion.div
           className="absolute inset-0 transition-colors duration-500"
           style={{ backgroundColor: color.hex }}
         />
-
-        {/* Dynamic Glare */}
         <motion.div 
           className="absolute inset-0 pointer-events-none opacity-0 mix-blend-overlay transition-opacity duration-300"
           style={{
@@ -212,25 +210,19 @@ function ColorCard({ color, onCopy, copied }: { color: ReturnType<typeof useColo
             background: `radial-gradient(circle at ${glareX.get()} ${glareY.get()}, rgba(255,255,255,1) 0%, transparent 60%)`
           }}
         />
-
-        {/* Inner static glow */}
         <div className="absolute inset-0 rounded-[32px]" style={{
           background: `radial-gradient(ellipse at 80% 10%, ${color.isLight ? 'rgba(255,255,255,0.5)' : 'rgba(255,255,255,0.2)'} 0%, transparent 65%)`
         }} />
-
-        {/* Outer drop shadow */}
         <motion.div
           className="absolute inset-0 rounded-[32px] pointer-events-none"
           animate={{ boxShadow: `0 32px 80px rgba(0,0,0,0.5), 0 0 140px -20px ${color.hex}` }}
           transition={{ duration: 0.8 }}
         />
 
-        {/* Content container - lifted slightly to enhance 3D effect */}
         <div 
           className="absolute inset-0 flex flex-col justify-between p-8 md:p-10 pointer-events-none"
           style={{ transform: "translateZ(30px)" }}
         >
-          {/* Top */}
           <div className="flex items-start justify-between">
             <motion.span
               key={color.mood}
@@ -263,7 +255,6 @@ function ColorCard({ color, onCopy, copied }: { color: ReturnType<typeof useColo
             </div>
           </div>
 
-          {/* Bottom */}
           <div className="flex flex-col gap-4">
             <motion.div
               key={color.hex}
@@ -281,15 +272,12 @@ function ColorCard({ color, onCopy, copied }: { color: ReturnType<typeof useColo
           </div>
         </div>
 
-        {/* Copied flash overlay */}
         <motion.div
           className="absolute inset-0 rounded-[32px] pointer-events-none mix-blend-overlay bg-white"
           initial={{ opacity: 0 }}
           animate={{ opacity: isCopied ? 0.2 : 0 }}
           transition={{ duration: 0.2 }}
         />
-        
-        {/* Subtle border outline */}
         <div className="absolute inset-0 rounded-[32px] border border-white/20 mix-blend-overlay pointer-events-none" />
       </div>
     </motion.div>

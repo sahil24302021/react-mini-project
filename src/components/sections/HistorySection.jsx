@@ -27,7 +27,6 @@ export default function HistorySection() {
                 className="group relative flex-shrink-0 flex flex-col gap-2 cursor-pointer no-select"
                 style={{ width: 72 }}
               >
-                {/* Swatch */}
                 <div
                   className="w-full rounded-xl relative overflow-hidden border"
                   style={{
@@ -38,7 +37,6 @@ export default function HistorySection() {
                   }}
                   onClick={() => setColor(entry.hex)}
                 >
-                  {/* Actions on hover */}
                   <div className="absolute inset-0 flex items-center justify-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity"
                     style={{ background: 'rgba(0,0,0,0.35)' }}>
                     <button
@@ -50,7 +48,6 @@ export default function HistorySection() {
                   </div>
                 </div>
 
-                {/* Hex label */}
                 <div className="flex flex-col gap-0.5">
                   <span className="font-mono text-[9px] leading-tight truncate" style={{ color: 'var(--text-3)' }}>
                     {entry.hex}
@@ -60,7 +57,6 @@ export default function HistorySection() {
                   </span>
                 </div>
 
-                {/* Save button */}
                 <button
                   onClick={() => saveColor(entry)}
                   className="absolute -top-1.5 -right-1.5 w-6 h-6 glass rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer"

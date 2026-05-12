@@ -15,7 +15,7 @@ const SATURATIONS = [
 ]
 
 function generateMoodGrid() {
-  const colors: Array<{ hex: string; mood: string; h: number; s: number; l: number }> = []
+  const colors = []
   for (let h = 0; h < 360; h += 18) {
     for (const sat of SATURATIONS) {
       const l = sat.lRange[0] + Math.floor(Math.random() * (sat.lRange[1] - sat.lRange[0]))
@@ -36,7 +36,8 @@ export default function ExplorePage() {
   const filtered = useMemo(() => {
     return ALL_COLORS.filter(c => {
       const moodOk = activeMood === 'All' || c.mood === activeMood
-      const satOk  = activeSat  === 'All' || SATURATIONS.find(s => s.label === activeSat)?.s === c.s
+      const satMatch = SATURATIONS.find(s => s.label === activeSat)
+      const satOk  = activeSat  === 'All' || (satMatch && satMatch.s === c.s)
       return moodOk && satOk
     })
   }, [activeMood, activeSat])

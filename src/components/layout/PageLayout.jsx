@@ -1,9 +1,8 @@
-import type { ReactNode } from 'react'
 import Navbar from './Navbar'
 import Footer from './Footer'
 import Toast from '@/components/ui/Toast'
 
-export default function PageLayout({ children }: { children: ReactNode }) {
+export default function PageLayout({ children }) {
   return (
     <div className="min-h-screen flex flex-col relative">
       <Navbar />

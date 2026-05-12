@@ -1,31 +1,17 @@
 import { motion } from 'framer-motion'
-import type { ReactNode, MouseEvent } from 'react'
 
-type Variant = 'primary' | 'ghost' | 'outline'
-type Size    = 'sm' | 'md' | 'lg'
-
-interface Props {
-  children: ReactNode
-  variant?: Variant
-  size?: Size
-  onClick?: (e: MouseEvent) => void
-  disabled?: boolean
-  className?: string
-  type?: 'button' | 'submit'
-}
-
-const variants: Record<Variant, string> = {
+const variants = {
   primary: 'bg-[var(--text)] text-[var(--canvas)] hover:opacity-90',
   ghost:   'bg-transparent text-[var(--text-2)] hover:bg-white/5 hover:text-[var(--text)]',
   outline: 'bg-transparent text-[var(--text)] border border-[var(--border-2)] hover:border-[var(--text-3)]',
 }
-const sizes: Record<Size, string> = {
+const sizes = {
   sm: 'px-3 py-1.5 text-[12px] rounded-lg gap-1.5',
   md: 'px-5 py-2.5 text-[13px] rounded-xl gap-2',
   lg: 'px-7 py-3.5 text-[14px] rounded-2xl gap-2.5',
 }
 
-export default function Button({ children, variant = 'primary', size = 'md', onClick, disabled, className = '', type = 'button' }: Props) {
+export default function Button({ children, variant = 'primary', size = 'md', onClick, disabled, className = '', type = 'button' }) {
   const isPrimary = variant === 'primary'
 
   return (
@@ -46,7 +32,6 @@ export default function Button({ children, variant = 'primary', size = 'md', onC
         ${variants[variant]} ${sizes[size]} ${className}
       `}
     >
-      {/* Gloss overlay for primary button */}
       {isPrimary && (
         <span className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent opacity-0 hover:opacity-100 transition-opacity duration-500 pointer-events-none mix-blend-screen" />
       )}

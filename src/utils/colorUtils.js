@@ -1,5 +1,5 @@
 /**
- * colorUtils.ts — Core Color Science & Utility Library
+ * colorUtils.js — Core Color Science & Utility Library
  * 
  * This module contains ALL the color math for Palette Studio. It handles:
  *   1. Color space conversions (HEX ↔ RGB ↔ HSL)
@@ -10,8 +10,6 @@
  * 
  * No external dependencies — all calculations are done with pure math.
  */
-
-import type { RGB, HSL, ColorSwatch, GeneratedColor, HarmonyType, ColorContrast } from '@/types/color'
 
 // ═══════════════════════════════════════════════════════════════════════════════
 // SECTION 1: COLOR SPACE CONVERSIONS
@@ -27,7 +25,7 @@ import type { RGB, HSL, ColorSwatch, GeneratedColor, HarmonyType, ColorContrast 
  * 
  * Example: "#FF6B35" → { r: 255, g: 107, b: 53 }
  */
-export function hexToRgb(hex: string): RGB {
+export function hexToRgb(hex) {
   const c = hex.replace('#', '')
   return {
     r: parseInt(c.slice(0, 2), 16),
@@ -46,7 +44,7 @@ export function hexToRgb(hex: string): RGB {
  * 
  * Example: (255, 107, 53) → "#FF6B35"
  */
-export function rgbToHex(r: number, g: number, b: number): string {
+export function rgbToHex(r, g, b) {
   return '#' + [r, g, b]
     .map(v => Math.round(Math.max(0, Math.min(255, v))).toString(16).padStart(2, '0'))
     .join('').toUpperCase()
@@ -67,7 +65,7 @@ export function rgbToHex(r: number, g: number, b: number): string {
  * 
  * Returns: { h: 0-360, s: 0-100, l: 0-100 }
  */
-export function rgbToHsl(r: number, g: number, b: number): HSL {
+export function rgbToHsl(r, g, b) {
   const rn = r / 255, gn = g / 255, bn = b / 255
   const max = Math.max(rn, gn, bn), min = Math.min(rn, gn, bn)
   let h = 0, s = 0
@@ -94,10 +92,10 @@ export function rgbToHsl(r: number, g: number, b: number): HSL {
  * 
  * Example: (25, 85, 55) → "#E87A2C"
  */
-export function hslToHex(h: number, s: number, l: number): string {
+export function hslToHex(h, s, l) {
   const sn = s / 100, ln = l / 100
   const a = sn * Math.min(ln, 1 - ln)
-  const f = (n: number) => {
+  const f = (n) => {
     const k = (n + h / 30) % 12
     const color = ln - a * Math.max(Math.min(k - 3, 9 - k, 1), -1)
     return Math.round(255 * color).toString(16).padStart(2, '0').toUpperCase()
@@ -119,9 +117,9 @@ export function hslToHex(h: number, s: number, l: number): string {
  * sRGB gamma is removed via the linearization step (c / 12.92 or ((c+0.055)/1.055)^2.4).
  * Returns true if luminance > 0.35 (threshold chosen for good readability).
  */
-export function isColorLight(hex: string): boolean {
+export function isColorLight(hex) {
   const { r, g, b } = hexToRgb(hex)
-  const toL = (c: number) => { const n = c / 255; return n <= 0.03928 ? n / 12.92 : Math.pow((n + 0.055) / 1.055, 2.4) }
+  const toL = (c) => { const n = c / 255; return n <= 0.03928 ? n / 12.92 : Math.pow((n + 0.055) / 1.055, 2.4) }
   return (0.2126 * toL(r) + 0.7152 * toL(g) + 0.0722 * toL(b)) > 0.35
 }
 
@@ -145,7 +143,7 @@ export function isColorLight(hex: string): boolean {
  * Special cases for very dark (Void), very light (Celestial),
  * and desaturated colors (Obsidian / Lunar).
  */
-export function getColorMood(hex: string): string {
+export function getColorMood(hex) {
   const { r, g, b } = hexToRgb(hex)
   const { h, s, l } = rgbToHsl(r, g, b)
   if (l < 8)  return 'Void'
@@ -170,7 +168,7 @@ export function getColorMood(hex: string): string {
  * Used internally by WCAG contrast calculation.
  * Follows the W3C formula: https://www.w3.org/TR/WCAG21/#dfn-relative-luminance
  */
-function getLuminance(r: number, g: number, b: number) {
+function getLuminance(r, g, b) {
   const [rs, gs, bs] = [r, g, b].map(c => {
     c = c / 255;
     return c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4);
@@ -187,7 +185,7 @@ function getLuminance(r: number, g: number, b: number) {
  *   - AA: ratio >= 4.5:1 (normal text)
  *   - AAA: ratio >= 7.0:1 (enhanced accessibility)
  */
-export function getWCAGContrast(hex: string): ColorContrast {
+export function getWCAGContrast(hex) {
   const { r, g, b } = hexToRgb(hex);
   const l1 = getLuminance(r, g, b);
   const whiteContrast = (1 + 0.05) / (l1 + 0.05);
@@ -204,8 +202,6 @@ export function getWCAGContrast(hex: string): ColorContrast {
 // SECTION 3: COLOR VISION DEFICIENCY (CVD) SIMULATION
 // ═══════════════════════════════════════════════════════════════════════════════
 
-export type CVDType = 'protanopia' | 'deuteranopia' | 'tritanopia';
-
 /**
  * Simulate how a color appears to people with color vision deficiency.
  * 
@@ -217,7 +213,7 @@ export type CVDType = 'protanopia' | 'deuteranopia' | 'tritanopia';
  * Each matrix remaps the RGB channels to approximate what the affected
  * person would perceive. This is used in the accessibility checker UI.
  */
-export function simulateCVD(hex: string, type: CVDType): string {
+export function simulateCVD(hex, type) {
   const { r, g, b } = hexToRgb(hex);
   let [nr, ng, nb] = [r, g, b];
 
@@ -243,7 +239,7 @@ export function simulateCVD(hex: string, type: CVDType): string {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 /** Utility: clamp a value between a min and max */
-const clamp = (v: number, min: number, max: number) => Math.max(min, Math.min(max, v))
+const clamp = (v, min, max) => Math.max(min, Math.min(max, v))
 
 /**
  * Generate a 4-color harmonic palette from a base color.
@@ -264,10 +260,10 @@ const clamp = (v: number, min: number, max: number) => Math.max(min, Math.min(ma
  * more visually pleasing results than pure hue rotation alone.
  * All values are clamped to safe ranges to prevent washed-out or too-dark colors.
  */
-export function generateHarmonicPalette(hex: string): ColorSwatch[] {
+export function generateHarmonicPalette(hex) {
   const { r, g, b } = hexToRgb(hex)
   const { h, s, l } = rgbToHsl(r, g, b)
-  const defs: Array<{ relation: HarmonyType; dh: number; ds: number; dl: number }> = [
+  const defs = [
     { relation: 'complementary', dh: 180, ds: 0,   dl: 0   },
     { relation: 'analogous',     dh: 30,  ds: -5,  dl: 8   },
     { relation: 'triadic',       dh: 120, ds: 5,   dl: -5  },
@@ -291,7 +287,7 @@ export function generateHarmonicPalette(hex: string): ColorSwatch[] {
  *   - Saturation: 30–95% (avoids washed-out grays)
  *   - Lightness: 22–72% (avoids pure black/white)
  */
-export function generateRandomHex(): string {
+export function generateRandomHex() {
   const h = Math.floor(Math.random() * 360)
   const s = Math.floor(Math.random() * 65) + 30
   const l = Math.floor(Math.random() * 50) + 22
@@ -310,7 +306,7 @@ export function generateRandomHex(): string {
  *   - WCAG contrast ratios
  *   - Unique ID and timestamp
  */
-export function buildGeneratedColor(hex: string): GeneratedColor {
+export function buildGeneratedColor(hex) {
   const upper = (hex.startsWith('#') ? hex : `#${hex}`).toUpperCase()
   const rgb = hexToRgb(upper)
   return {
@@ -331,17 +327,17 @@ export function buildGeneratedColor(hex: string): GeneratedColor {
 // ═══════════════════════════════════════════════════════════════════════════════
 
 /** Format an RGB object as a CSS rgb() string */
-export const formatRgb  = ({ r, g, b }: RGB): string => `rgb(${r}, ${g}, ${b})`
+export const formatRgb  = ({ r, g, b }) => `rgb(${r}, ${g}, ${b})`
 /** Format an HSL object as a CSS hsl() string */
-export const formatHsl  = ({ h, s, l }: HSL): string => `hsl(${h}, ${s}%, ${l}%)`
+export const formatHsl  = ({ h, s, l }) => `hsl(${h}, ${s}%, ${l}%)`
 
 /** Export as CSS Custom Properties (:root block) */
-export function exportCss(color: GeneratedColor): string {
+export function exportCss(color) {
   return `:root {\n  --color-primary: ${color.hex};\n  --color-primary-rgb: ${color.rgb.r}, ${color.rgb.g}, ${color.rgb.b};\n  --color-primary-hsl: ${color.hsl.h}, ${color.hsl.s}%, ${color.hsl.l}%;\n${color.palette.map((s, i) => `  --color-${s.relation}: ${s.hex};`).join('\n')}\n}`
 }
 
 /** Export as a structured JSON object */
-export function exportJson(color: GeneratedColor): string {
+export function exportJson(color) {
   return JSON.stringify({
     hex: color.hex,
     rgb: color.rgb,
@@ -352,7 +348,7 @@ export function exportJson(color: GeneratedColor): string {
 }
 
 /** Export as Tailwind CSS config (colors extend block) */
-export function exportTailwind(color: GeneratedColor): string {
+export function exportTailwind(color) {
   const entries = [
     `        primary: '${color.hex}',`,
     ...color.palette.map(s => `        '${s.relation}': '${s.hex}',`),
@@ -361,21 +357,21 @@ export function exportTailwind(color: GeneratedColor): string {
 }
 
 /** Export as SCSS variables */
-export function exportScss(color: GeneratedColor): string {
+export function exportScss(color) {
   return `$color-primary: ${color.hex};\n` +
          color.palette.map(s => `$color-${s.relation}: ${s.hex};`).join('\n');
 }
 
 /** Export as SwiftUI Color extensions */
-export function exportSwiftUI(color: GeneratedColor): string {
+export function exportSwiftUI(color) {
   return `import SwiftUI\n\nextension Color {\n  static let primary = Color(hex: "${color.hex}")\n` +
          color.palette.map(s => `  static let ${s.relation} = Color(hex: "${s.hex}")`).join('\n') +
          `\n}`;
 }
 
 /** Export as Jetpack Compose Color definitions */
-export function exportCompose(color: GeneratedColor): string {
-  const toCompose = (hex: string) => `Color(0xFF${hex.replace('#', '')})`;
+export function exportCompose(color) {
+  const toCompose = (hex) => `Color(0xFF${hex.replace('#', '')})`;
   return `import androidx.compose.ui.graphics.Color\n\nval PrimaryColor = ${toCompose(color.hex)}\n` +
          color.palette.map(s => `val ${s.relation.charAt(0).toUpperCase() + s.relation.slice(1)}Color = ${toCompose(s.hex)}`).join('\n');
 }

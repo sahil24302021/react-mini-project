@@ -1,10 +1,9 @@
-interface P { size?: number; className?: string }
-const ico = (d: string) => ({ size = 16, className = '' }: P) => (
+const ico = (d) => ({ size = 16, className = '' }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
     <path d={d} stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>
   </svg>
 )
-const ico2 = (paths: string[]) => ({ size = 16, className = '' }: P) => (
+const ico2 = (paths) => ({ size = 16, className = '' }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
     {paths.map((d, i) => <path key={i} d={d} stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round"/>)}
   </svg>
@@ -24,7 +23,7 @@ export const CodeIcon     = ico2(['M16 18l6-6-6-6','M8 6l-6 6 6 6'])
 export const CloseIcon    = ico('M18 6L6 18M6 6l12 12')
 export const PlusIcon     = ico('M12 5v14M5 12h14')
 
-export function SpinnerIcon({ size = 16, className = '' }: P) {
+export function SpinnerIcon({ size = 16, className = '' }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={`animate-spin ${className}`}>
       <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2" opacity="0.2"/>

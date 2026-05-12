@@ -1,5 +1,5 @@
 /**
- * ColorContext.tsx — Global State Management
+ * ColorContext.jsx — Global State Management
  * 
  * This is the single source of truth for all color-related state in Palette Studio.
  * It uses React's Context API + useReducer pattern (via useState hooks) to provide:
@@ -10,39 +10,18 @@
  *   - Toast notification system
  *   - Keyboard shortcut registration (Space / ⌘+G to generate)
  */
-import { createContext, useContext, useState, useCallback, useEffect, useRef, type ReactNode } from 'react'
+import { createContext, useContext, useState, useCallback, useEffect, useRef } from 'react'
 import { buildGeneratedColor, generateRandomHex } from '@/utils/colorUtils'
-import type { GeneratedColor } from '@/types/color'
 
-interface ToastData {
-  message: string
-  id: number
-}
+const ColorContext = createContext(null)
 
-interface ColorContextValue {
-  color: GeneratedColor
-  history: GeneratedColor[]
-  saved: GeneratedColor[]
-  isGenerating: boolean
-  copied: string | null
-  toast: ToastData | null
-  generate: () => void
-  copyText: (text: string) => Promise<void>
-  saveColor: (c: GeneratedColor) => void
-  removeColor: (id: string) => void
-  setColor: (hex: string) => void
-  showToast: (message: string) => void
-}
-
-const ColorContext = createContext<ColorContextValue | null>(null)
-
-export function ColorProvider({ children }: { children: ReactNode }) {
+export function ColorProvider({ children }) {
   // Core color state — initialized with a warm amber default
-  const [color, setColorState]       = useState<GeneratedColor>(() => buildGeneratedColor('#B5673C'))
+  const [color, setColorState]       = useState(() => buildGeneratedColor('#B5673C'))
   // Recently generated colors (newest first, max 12)
-  const [history, setHistory]        = useState<GeneratedColor[]>([])
+  const [history, setHistory]        = useState([])
   // User's saved collection (persisted to localStorage, max 24)
-  const [saved, setSaved]            = useState<GeneratedColor[]>(() => {
+  const [saved, setSaved]            = useState(() => {
     try {
       const stored = localStorage.getItem('palette-studio-saved')
       return stored ? JSON.parse(stored) : []
@@ -50,12 +29,12 @@ export function ColorProvider({ children }: { children: ReactNode }) {
   })
   // UI state flags
   const [isGenerating, setGenerating]= useState(false)
-  const [copied, setCopied]          = useState<string | null>(null)
-  const [toast, setToast]            = useState<ToastData | null>(null)
+  const [copied, setCopied]          = useState(null)
+  const [toast, setToast]            = useState(null)
   
   // Timer refs to properly debounce copy feedback and toast auto-dismiss
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const timerRef = useRef(null)
+  const toastTimerRef = useRef(null)
 
   // Persist saved colors to localStorage whenever they change
   useEffect(() => {
@@ -63,7 +42,7 @@ export function ColorProvider({ children }: { children: ReactNode }) {
     catch { /* storage full or unavailable — silently fail */ }
   }, [saved])
 
-  const showToast = useCallback((message: string) => {
+  const showToast = useCallback((message) => {
     setToast({ message, id: Date.now() })
     if (toastTimerRef.current) clearTimeout(toastTimerRef.current)
     toastTimerRef.current = setTimeout(() => setToast(null), 3000)
@@ -80,13 +59,13 @@ export function ColorProvider({ children }: { children: ReactNode }) {
     }, 160)
   }, [isGenerating])
 
-  const setColor = useCallback((hex: string) => {
+  const setColor = useCallback((hex) => {
     const next = buildGeneratedColor(hex)
     setColorState(next)
     setHistory(prev => [next, ...prev].slice(0, 12))
   }, [])
 
-  const copyText = useCallback(async (text: string) => {
+  const copyText = useCallback(async (text) => {
     try { await navigator.clipboard.writeText(text) }
     catch {
       const el = Object.assign(document.createElement('textarea'), {
@@ -100,19 +79,19 @@ export function ColorProvider({ children }: { children: ReactNode }) {
     timerRef.current = setTimeout(() => setCopied(null), 2000)
   }, [showToast])
 
-  const saveColor = useCallback((c: GeneratedColor) => {
+  const saveColor = useCallback((c) => {
     setSaved(prev => prev.find(s => s.hex === c.hex) ? prev : [c, ...prev].slice(0, 24))
     showToast(`Saved ${c.hex} to collection`)
   }, [showToast])
 
-  const removeColor = useCallback((id: string) => {
+  const removeColor = useCallback((id) => {
     setSaved(prev => prev.filter(s => s.id !== id))
   }, [])
 
   // Keyboard shortcuts
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      const tag = (e.target as HTMLElement).tagName
+    const onKey = (e) => {
+      const tag = e.target.tagName
       if (tag === 'INPUT' || tag === 'TEXTAREA') return
       if (e.code === 'Space' || ((e.metaKey || e.ctrlKey) && e.key === 'g')) {
         e.preventDefault(); generate()
@@ -129,7 +108,7 @@ export function ColorProvider({ children }: { children: ReactNode }) {
   )
 }
 
-export function useColor(): ColorContextValue {
+export function useColor() {
   const ctx = useContext(ColorContext)
   if (!ctx) throw new Error('useColor must be used within ColorProvider')
   return ctx

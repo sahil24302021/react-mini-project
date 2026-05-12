@@ -10,7 +10,7 @@ export default function SavedPage() {
   const { saved, removeColor, copyText, copied, setColor } = useColor()
 
   const handleDownloadAll = () => {
-    const text = saved.map(c => exportCss(c)).join('\n\n/* ─── */\n\n')
+    const text = saved.map(c => exportCss(c)).join('\n\n/* --- */\n\n')
     const blob = new Blob([text], { type: 'text/css' })
     const url  = URL.createObjectURL(blob)
     const a    = Object.assign(document.createElement('a'), { href: url, download: 'saved-palette.css' })
@@ -20,7 +20,6 @@ export default function SavedPage() {
   return (
     <PageLayout>
       <div className="max-w-6xl mx-auto px-5 md:px-8 py-16 flex flex-col gap-12">
-        {/* Header */}
         <motion.div
           className="flex items-end justify-between gap-6 flex-wrap"
           initial={{ opacity: 0, y: 20 }}
@@ -41,7 +40,6 @@ export default function SavedPage() {
           )}
         </motion.div>
 
-        {/* Empty state */}
         {saved.length === 0 && (
           <motion.div
             className="flex flex-col items-center justify-center py-32 gap-6 text-center"
@@ -66,7 +64,6 @@ export default function SavedPage() {
           </motion.div>
         )}
 
-        {/* Saved grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           <AnimatePresence mode="popLayout">
             {saved.map((entry) => {
@@ -86,26 +83,20 @@ export default function SavedPage() {
                   className="group relative rounded-2xl overflow-hidden border"
                   style={{ borderColor: 'rgba(255,255,255,0.06)' }}
                 >
-                  {/* Color block */}
                   <div
                     className="relative w-full cursor-pointer"
                     style={{ aspectRatio: '16/9', backgroundColor: entry.hex }}
                     onClick={() => setColor(entry.hex)}
                   >
-                    {/* Inner glow */}
                     <div className="absolute inset-0" style={{
                       background: `radial-gradient(ellipse at 75% 25%, ${light ? 'rgba(255,255,255,0.35)' : 'rgba(255,255,255,0.12)'} 0%, transparent 60%)`,
                     }} />
-
-                    {/* Mood */}
                     <span
                       className="absolute bottom-3 left-4 font-display italic text-sm tracking-widest uppercase"
                       style={{ color: subC }}
                     >
                       {entry.mood}
                     </span>
-
-                    {/* Load button */}
                     <div className="absolute top-3 left-4 opacity-0 group-hover:opacity-100 transition-opacity">
                       <span className="font-mono text-[10px] px-2 py-1 rounded-lg"
                         style={{ background: 'rgba(0,0,0,0.3)', color: 'rgba(255,255,255,0.8)' }}>
@@ -114,7 +105,6 @@ export default function SavedPage() {
                     </div>
                   </div>
 
-                  {/* Bottom bar */}
                   <div
                     className="flex items-center justify-between px-4 py-3"
                     style={{ backgroundColor: entry.hex }}
@@ -125,7 +115,6 @@ export default function SavedPage() {
                         rgb({entry.rgb.r}, {entry.rgb.g}, {entry.rgb.b})
                       </span>
                     </div>
-
                     <div className="flex items-center gap-1">
                       <button
                         onClick={() => copyText(entry.hex)}
@@ -146,7 +135,6 @@ export default function SavedPage() {
                     </div>
                   </div>
 
-                  {/* Mini palette strip */}
                   <div className="flex h-2">
                     {entry.palette.map(s => (
                       <div key={s.hex} className="flex-1" style={{ backgroundColor: s.hex }} />
