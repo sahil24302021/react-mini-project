@@ -1,165 +1,410 @@
 <div align="center">
-  <img src="./banner.svg" alt="Palette Studio" width="100%"/>
-  <svg width="900" height="240" viewBox="0 0 900 240" xmlns="http://www.w3.org/2000/svg">
-  <defs>
-    <clipPath id="c"><rect width="900" height="240" rx="16"/></clipPath>
-  </defs>
 
-  <!-- Background -->
-  <rect width="900" height="240" rx="16" fill="#0c0c0f"/>
+# 🎨 Palette Studio
 
-  <!-- Top rainbow bar -->
-  <rect x="0"   y="0" width="129" height="7" rx="0" fill="#e8685a" clip-path="url(#c)"/>
-  <rect x="129" y="0" width="128" height="7" fill="#e8a85a" clip-path="url(#c)"/>
-  <rect x="257" y="0" width="129" height="7" fill="#e8d45a" clip-path="url(#c)"/>
-  <rect x="386" y="0" width="128" height="7" fill="#72c472" clip-path="url(#c)"/>
-  <rect x="514" y="0" width="129" height="7" fill="#5ab4e8" clip-path="url(#c)"/>
-  <rect x="643" y="0" width="128" height="7" fill="#9a5ae8" clip-path="url(#c)"/>
-  <rect x="771" y="0" width="129" height="7" fill="#e85ab4" clip-path="url(#c)"/>
+### Professional Color Generation, Exploration & Export Tool
 
-  <!-- Color dot row — decorative -->
-  <circle cx="60"  cy="50" r="22" fill="#e8685a" opacity="0.15"/>
-  <circle cx="120" cy="50" r="22" fill="#e8a85a" opacity="0.15"/>
-  <circle cx="180" cy="50" r="22" fill="#e8d45a" opacity="0.15"/>
-  <circle cx="720" cy="190" r="22" fill="#5ab4e8" opacity="0.12"/>
-  <circle cx="780" cy="190" r="22" fill="#9a5ae8" opacity="0.12"/>
-  <circle cx="840" cy="190" r="22" fill="#e85ab4" opacity="0.12"/>
+[![React](https://img.shields.io/badge/React-18.3-61DAFB?style=for-the-badge&logo=react&logoColor=white)](https://react.dev)
+[![JavaScript](https://img.shields.io/badge/JavaScript-ES2020-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+[![Vite](https://img.shields.io/badge/Vite-5.3-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev)
+[![Framer Motion](https://img.shields.io/badge/Framer_Motion-11-FF0055?style=for-the-badge&logo=framer&logoColor=white)](https://www.framer.com/motion/)
+[![TailwindCSS](https://img.shields.io/badge/Tailwind-3.4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
 
-  <!-- Bottom rainbow bar (faded) -->
-  <rect x="0"   y="233" width="129" height="7" fill="#e8685a" opacity="0.35" clip-path="url(#c)"/>
-  <rect x="129" y="233" width="128" height="7" fill="#e8a85a" opacity="0.35" clip-path="url(#c)"/>
-  <rect x="257" y="233" width="129" height="7" fill="#e8d45a" opacity="0.35" clip-path="url(#c)"/>
-  <rect x="386" y="233" width="128" height="7" fill="#72c472" opacity="0.35" clip-path="url(#c)"/>
-  <rect x="514" y="233" width="129" height="7" fill="#5ab4e8" opacity="0.35" clip-path="url(#c)"/>
-  <rect x="643" y="233" width="128" height="7" fill="#9a5ae8" opacity="0.35" clip-path="url(#c)"/>
-  <rect x="771" y="233" width="129" height="7" fill="#e85ab4" opacity="0.35" clip-path="url(#c)"/>
-</svg>
-  <br/><br/>
+> **Generate harmonic color palettes using pure color theory math — no APIs, no external services.**  
+> Built with React + JavaScript. Zero backend. 100% client-side color science.
 
-[![Live Demo](https://img.shields.io/badge/🚀_Live_Demo-Visit_Site-black?style=for-the-badge)](https://react-mini-project-flame-seven.vercel.app/)
-[![React](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.5-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Tailwind](https://img.shields.io/badge/Tailwind-3.4-38BDF8?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
-[![Deployed on Vercel](https://img.shields.io/badge/Deployed-Vercel-000?style=for-the-badge&logo=vercel)](https://vercel.com/)
+[**🚀 Live Demo**](#) · [**📖 How It Works**](#-the-color-science) · [**⚡ Quick Start**](#-quick-start)
 
 </div>
 
 ---
 
-## What is this?
+## ✨ Features at a Glance
 
-Palette Studio is a browser-based **color palette generator** built entirely with React and TypeScript. The assignment was to generate a random hex code and copy it to clipboard — we built a complete color science tool on top of that.
-
-Every color calculation — conversions, contrast ratios, harmony generation, colorblindness simulation — is written in **pure TypeScript math** with zero external color libraries.
-
----
-
-## Features
-
-| | Feature | What it does |
-|---|---|---|
-| 🎲 | **Random Generation** | Generates colors in HSL space (not RGB) — every result is vivid, never muddy |
-| 📋 | **Clipboard Copy** | Click any hex code to copy via `navigator.clipboard` |
-| 🎨 | **Harmonic Palettes** | Derives 4 colors per generate using real color theory (complementary, analogous, triadic, split) |
-| 🔬 | **Color Conversions** | Full HEX ↔ RGB ↔ HSL in both directions, shown live |
-| 🎭 | **Mood Labels** | Classifies every color into one of 12 named moods (Vermillion, Cobalt, Amethyst…) |
-| ♿ | **WCAG Contrast** | Checks accessibility compliance — AA and AAA badges against black and white text |
-| 👁️ | **Colorblindness Sim** | Simulates Protanopia, Deuteranopia, and Tritanopia using matrix transforms |
-| 📤 | **Export** | One-click export to CSS, SCSS, JSON, Tailwind config, SwiftUI, Jetpack Compose |
-| 🗂️ | **Explore** | Browse 80+ curated colors, filterable by mood and saturation style |
-| 🔖 | **Saved Collection** | Bookmark colors — persisted across sessions with `localStorage` (up to 24) |
-| ⌨️ | **Keyboard Shortcut** | Press `Space` or `Ctrl/Cmd + G` to generate anywhere on the page |
+| Feature | Description |
+|---------|-------------|
+| 🎯 **One-Click Generation** | Press `Space` or click Generate — instant harmonic palette |
+| 🌈 **4 Harmony Types** | Complementary, Analogous, Triadic, Split — real color theory |
+| 📋 **Copy Anything** | HEX, RGB, HSL — click any chip to copy instantly |
+| 🔍 **Explore 80+ Colors** | Browse by mood (Vermillion, Cerulean, Amethyst...) and tone |
+| 💾 **Save & Collect** | Bookmark favorites — persisted in localStorage |
+| ♿ **Accessibility Checker** | WCAG contrast ratios + color blindness simulation |
+| 📦 **6 Export Formats** | CSS, SCSS, Tailwind, JSON, SwiftUI, Jetpack Compose |
+| 🎨 **Gradient Generator** | Linear, radial, conic gradients from your palette |
+| ⌨️ **Keyboard Shortcuts** | `Space` to generate, `⌘+G` alternative |
+| 📱 **Fully Responsive** | Glassmorphic design, mobile-first, 60fps animations |
 
 ---
 
-## How it works
+## 🚀 Quick Start
 
-### Why HSL instead of random RGB?
+```bash
+# Clone the repository
+git clone https://github.com/sahil24302021/react-mini-project.git
 
-Fully random RGB produces lots of near-black, near-white, and muddy brown colors. Instead, we randomize in **HSL space** with constraints:
+# Navigate to project
+cd react-mini-project
 
-```ts
-const h = Math.floor(Math.random() * 360)     // full color wheel
-const s = Math.floor(Math.random() * 65) + 30 // 30–95%  — no washed-out grays
-const l = Math.floor(Math.random() * 50) + 22 // 22–72%  — no black or white
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
 ```
 
-Every color that comes out is guaranteed to be vivid and usable.
+Open **http://localhost:5173** and press `Space` to generate your first palette! 🎉
 
 ---
 
-### Color space conversions — pure math, no library
-
-Three bidirectional functions handle all conversions:
-
-**HEX → RGB** — strip `#`, split into 3 pairs of hex digits, parse each with `parseInt(str, 16)`:
-```
-"#B5673C"  →  { r: 181, g: 103, b: 60 }
-```
-
-**RGB → HSL** — normalize to [0,1], find max/min channels, then compute lightness, saturation, and hue based on which channel is dominant.
-
-**HSL → HEX** — uses the CSS Color Module Level 4 piecewise (k-value) formula to reverse the process.
-
----
-
-### Harmonic palette generation — color theory applied
-
-Given a base color, four harmonic colors are derived by rotating the hue wheel:
-
-| Harmony | Hue offset | Effect |
-|---|---|---|
-| Complementary | +180° | Maximum contrast |
-| Analogous | +30° | Cohesive, calm |
-| Triadic | +120° | Vibrant, balanced |
-| Split-Complementary | +210° | Nuanced contrast |
-
-Saturation and lightness are also nudged per harmony to avoid mechanical-looking results.
-
----
-
-### WCAG accessibility contrast
-
-Every generated color is scored against both white and black text using the **W3C relative luminance formula**:
+## 📁 Project Structure
 
 ```
-L = 0.2126 × R_linear + 0.7152 × G_linear + 0.0722 × B_linear
-Contrast = (L_lighter + 0.05) / (L_darker + 0.05)
+src/
+├── main.jsx                          # Entry point
+├── App.jsx                           # Router setup + ColorProvider
+├── index.css                         # Design system (CSS variables, glass, noise)
+│
+├── utils/
+│   └── colorUtils.js                 # 🧮 ALL color math (380+ lines of pure science)
+│
+├── context/
+│   └── ColorContext.jsx              # 🧠 Global state (Context API + hooks)
+│
+├── components/
+│   ├── layout/
+│   │   ├── Navbar.jsx                # Floating glassmorphic navbar
+│   │   ├── Footer.jsx                # Dynamic glow footer
+│   │   └── PageLayout.jsx            # Page wrapper
+│   │
+│   ├── sections/
+│   │   ├── HeroSection.jsx           # 3D tilt card + ambient mesh
+│   │   ├── PaletteSection.jsx        # 4-swatch grid + export panel
+│   │   ├── GradientSection.jsx       # Live gradient generator
+│   │   └── HistorySection.jsx        # Recent colors strip
+│   │
+│   └── ui/
+│       ├── Button.jsx                # Animated button system
+│       ├── Icons.jsx                 # 14 custom SVG icons
+│       └── Toast.jsx                 # Notification system
+│
+└── pages/
+    ├── HomePage.jsx                  # Main studio page
+    ├── ExplorePage.jsx               # Browse 80+ colors by mood
+    ├── SavedPage.jsx                 # Bookmarked collection
+    ├── DocsPage.jsx                  # How it works
+    └── NotFoundPage.jsx              # 404 page
 ```
 
-The coefficients reflect human eye sensitivity — we see green most, blue least. sRGB gamma correction is applied before the formula. Results are rated:
+---
 
-- **AA** → ratio ≥ 4.5 : 1 (standard readable text)
-- **AAA** → ratio ≥ 7.0 : 1 (enhanced accessibility)
+## 🧮 The Color Science
+
+> **Everything in this app runs on pure math. No APIs, no color libraries, no external services.**
+
+### 🔄 Color Space Conversions
+
+The app works with **three color spaces** and converts between them freely:
+
+```
+  ┌─────────┐       ┌─────────┐       ┌─────────┐
+  │   HEX   │ ←───→ │   RGB   │ ────→ │   HSL   │
+  │ #FF6B35 │       │ 255,107 │       │ 25°,85% │
+  │         │       │   ,53   │       │  ,55%   │
+  └─────────┘       └─────────┘       └─────────┘
+    Web-ready        Screen native     Human-friendly
+```
+
+| Conversion | Function | What It Does |
+|------------|----------|-------------|
+| HEX → RGB | `hexToRgb()` | Splits 6-char hex into 3 decimal channels using `parseInt(_, 16)` |
+| RGB → HEX | `rgbToHex()` | Clamps 0–255, converts to base-16, pads to 2 digits |
+| RGB → HSL | `rgbToHsl()` | Standard algorithm — finds dominant channel, computes hue sector |
+| HSL → HEX | `hslToHex()` | CSS Color Level 4 algorithm with phase offsets `f(0)`, `f(8)`, `f(4)` |
+
+### 🎯 How HSL → HEX Works (The Elegant One)
+
+```js
+function hslToHex(h, s, l) {
+  const sn = s / 100, ln = l / 100
+  const a = sn * Math.min(ln, 1 - ln)     // Chroma
+  
+  const f = (n) => {
+    const k = (n + h / 30) % 12            // Phase on color wheel
+    const color = ln - a * Math.max(Math.min(k - 3, 9 - k, 1), -1)
+    return Math.round(255 * color)
+  }
+  
+  return `#${f(0)}${f(8)}${f(4)}`          // Red, Green, Blue offsets
+}
+```
+
+The magic numbers `0`, `8`, `4` are **phase offsets**: Red=0°, Green=120° (8×15°), Blue=240° (4×60°). One function, three channels! ✨
 
 ---
 
-### Colorblindness simulation
+### 🌈 Harmonic Palette Generation — The Core Algorithm
 
-Based on the Brettel, Viénot & Mollon (1997) RGB transformation matrices. The channels are remapped to approximate what each affected person would see:
+Every generated color produces **4 companion colors** using established color theory:
 
-- **Protanopia** — reduced red cone sensitivity (~1.3% of males)
-- **Deuteranopia** — reduced green cone sensitivity (~1.2% of males)
-- **Tritanopia** — reduced blue cone sensitivity (~0.01% of population)
+```
+        Analogous (+30°)
+             ↑
+             │
+  Split      │      Complementary
+  (+210°) ←──●──→  (+180°)
+             │
+             │
+        Triadic (+120°)
+```
+
+```js
+function generateHarmonicPalette(hex) {
+  const { h, s, l } = rgbToHsl(...)
+  
+  const harmonies = [
+    { type: 'complementary', hue: +180°, sat: +0,  light: +0  },
+    { type: 'analogous',     hue: +30°,  sat: -5,  light: +8  },
+    { type: 'triadic',       hue: +120°, sat: +5,  light: -5  },
+    { type: 'split',         hue: +210°, sat: -10, light: +12 },
+  ]
+  
+  // For each: rotate hue, tweak saturation/lightness, clamp to safe range
+}
+```
+
+| Harmony | Hue Offset | Effect | Use Case |
+|---------|:---:|--------|----------|
+| **Complementary** | +180° | Maximum contrast | CTA buttons, highlights |
+| **Analogous** | +30° | Gentle, cohesive | Backgrounds, supporting tones |
+| **Triadic** | +120° | Vibrant, balanced | Logos, brand systems |
+| **Split** | +210° | Sophisticated nuance | Elegant designs |
+
+> **Why not just rotate hue?** Pure hue rotation can produce jarring results. The small saturation/lightness tweaks make analogous colors feel **softer**, triadic colors feel **punchy**, and split colors feel **airy**. Values are clamped to prevent washed-out or too-dark extremes.
 
 ---
 
-### State management
+### 💡 Light vs Dark Detection (WCAG Luminance)
 
-All color state lives in a single `ColorContext` — no Redux, just React's built-in Context API with `useState` and `useCallback`. It manages the current color, 12-item history, saved collection, toast notifications, and clipboard state. Saved colors are written to `localStorage` and reloaded on every visit.
+Determines whether to show dark or light text on a color:
+
+```js
+function isColorLight(hex) {
+  // Human eye sensitivity coefficients (biology!)
+  const luminance = 0.2126 * Red     // 21% — moderate sensitivity
+                  + 0.7152 * Green   // 72% — most sensitive
+                  + 0.0722 * Blue    //  7% — least sensitive
+  
+  return luminance > 0.35
+}
+```
+
+Our eyes have **more green-sensitive cone cells**, which is why green contributes 72% to perceived brightness.
 
 ---
 
-## Stack
+### 🏷️ Mood Classification
 
-`React 18` · `TypeScript 5.5` · `Vite 5` · `Tailwind CSS 3` · `Framer Motion` · `React Router v6`
+Every color gets an evocative name based on its hue position:
+
+```
+  0°                  120°                 240°               360°
+  │    Vermillion │ Aureate │ Verdant │ Cerulean │ Amethyst │ Carmine │
+  ├──────┼────┼────┼────┼─────┼─────┼─────┼─────┼─────┼────┼────┤
+  Red   Ember Gold Citr  Malach Glacial  Cobalt    Mauve
+```
+
+**12 mood names** mapped to hue ranges, plus 4 special cases:
+- `Void` — near-black (L < 8%)
+- `Celestial` — near-white (L > 93%)
+- `Obsidian` — dark gray (S < 8%, L < 45%)
+- `Lunar` — light gray (S < 8%, L ≥ 45%)
+
+---
+
+### ♿ WCAG Contrast Checker
+
+Checks text readability against the generated color:
+
+```
+Contrast Ratio = (L_lighter + 0.05) / (L_darker + 0.05)
+
+┌──────────┬──────────┬──────────────────────────────┐
+│  Level   │  Ratio   │  Meaning                     │
+├──────────┼──────────┼──────────────────────────────┤
+│  AA ✅   │  ≥ 4.5   │  Normal text is readable     │
+│  AAA ✅  │  ≥ 7.0   │  Enhanced accessibility      │
+│  FAIL ❌ │  < 4.5   │  Text may be hard to read    │
+└──────────┴──────────┴──────────────────────────────┘
+```
+
+---
+
+### 👁️ Color Blindness Simulation
+
+Simulates 3 types of color vision deficiency using transformation matrices:
+
+| Type | Affects | % Population | What Happens |
+|------|---------|:---:|---|
+| **Protanopia** | Red cones | ~1.3% males | Reds look greenish-brown |
+| **Deuteranopia** | Green cones | ~1.2% males | Greens look brownish |
+| **Tritanopia** | Blue cones | ~0.01% all | Blues look greenish |
+
+Based on published research (Brettel, Viénot & Mollon, 1997).
+
+---
+
+### 🎲 Smart Random Generation
+
+```js
+function generateRandomHex() {
+  const h = random(0, 360)    // Any hue on the wheel
+  const s = random(30, 95)    // No washed-out grays
+  const l = random(22, 72)    // No near-black/white
+  return hslToHex(h, s, l)
+}
+```
+
+> **Why HSL instead of random RGB?** Random RGB produces mostly **muddy browns and dark grays** (statistically). By constraining in HSL space, every color is guaranteed vibrant and usable.
+
+---
+
+### 📦 Export Formats
+
+| Format | Output Example | Platform |
+|--------|---------------|----------|
+| **CSS** | `:root { --color-primary: #FF6B35; }` | Any web project |
+| **SCSS** | `$color-primary: #FF6B35;` | Sass projects |
+| **Tailwind** | `colors: { primary: '#FF6B35' }` | Tailwind config |
+| **JSON** | `{ "hex": "#FF6B35", "mood": "Ember" }` | APIs & databases |
+| **SwiftUI** | `Color(hex: "#FF6B35")` | iOS apps |
+| **Compose** | `Color(0xFFFF6B35)` | Android apps |
+
+---
+
+## 🏗️ Architecture
+
+### Data Flow
+
+```
+┌──────────────────────────────────────────────────────────┐
+│  User Action (Space / Click / Explore)                    │
+└──────────────┬───────────────────────────────────────────┘
+               ▼
+┌──────────────────────────────────────────────────────────┐
+│  generateRandomHex()  →  Random H, constrained S & L     │
+└──────────────┬───────────────────────────────────────────┘
+               ▼
+┌──────────────────────────────────────────────────────────┐
+│  buildGeneratedColor(hex)                                 │
+│  ├── hexToRgb()        → { r, g, b }                    │
+│  ├── rgbToHsl()        → { h, s, l }                    │
+│  ├── getColorMood()    → "Ember"                         │
+│  ├── generateHarmonicPalette()  → 4 companion colors     │
+│  ├── isColorLight()    → true/false (text color)         │
+│  └── getWCAGContrast() → { ratio, AA, AAA }             │
+└──────────────┬───────────────────────────────────────────┘
+               ▼
+┌──────────────────────────────────────────────────────────┐
+│  ColorContext (React Context API)                         │
+│  ├── color        → Current generated color object       │
+│  ├── history[]    → Last 12 colors                       │
+│  ├── saved[]      → Bookmarked (localStorage, max 24)    │
+│  └── actions      → generate, copy, save, remove         │
+└──────────────┬───────────────────────────────────────────┘
+               ▼
+┌──────────────────────────────────────────────────────────┐
+│  UI Components re-render with new color data              │
+│  ├── HeroSection   → Big card, format chips, 3D tilt    │
+│  ├── PaletteSection→ 4 harmonic swatches + export panel  │
+│  ├── GradientSection→ Live gradient preview              │
+│  └── HistorySection→ Recent colors strip                 │
+└──────────────────────────────────────────────────────────┘
+```
+
+### State Management
+
+- **React Context API** — single `ColorProvider` wraps the entire app
+- **`useState` + `useCallback`** — optimized re-renders
+- **`localStorage`** — saved colors persist across sessions
+- **Keyboard listeners** — global `Space` / `⌘+G` shortcuts (disabled in inputs)
+
+---
+
+## 🎨 Design System
+
+| Token | Value | Usage |
+|-------|-------|-------|
+| `--canvas` | `#060608` | Page background |
+| `--surface` | `#0e0e12` | Card backgrounds |
+| `--text` | `#ede8e0` | Primary text |
+| `--gold` | `#c9a96e` | Accent highlights |
+| `--border` | `rgba(255,255,255,0.06)` | Subtle borders |
+
+**Typography:** Playfair Display (headings) · JetBrains Mono (code) · DM Sans (body)
+
+**Effects:** Glassmorphism · Noise texture overlay · Ambient mesh blobs · 3D tilt card
+
+---
+
+## ⌨️ Keyboard Shortcuts
+
+| Key | Action |
+|-----|--------|
+| `Space` | Generate new random color |
+| `⌘ + G` | Generate (alternative) |
+| Click any swatch | Copy HEX to clipboard |
+| Click format chip | Copy RGB/HSL format |
+
+---
+
+## 🛠️ Tech Stack
+
+| Technology | Purpose |
+|-----------|---------|
+| **React 18** | UI framework with hooks |
+| **JavaScript (ES2020)** | No TypeScript — pure JS |
+| **Vite 5** | Lightning-fast bundler |
+| **Framer Motion** | Smooth 60fps animations |
+| **Tailwind CSS 3** | Utility-first styling |
+| **React Router 6** | Client-side routing |
+
+**Zero external color libraries** — all 380+ lines of color math are hand-written using pure JavaScript.
+
+---
+
+## 📊 Build Stats
+
+```
+dist/index.html         1.08 kB │ gzip:   0.55 kB
+dist/assets/index.css  22.86 kB │ gzip:   5.46 kB
+dist/assets/index.js  327.34 kB │ gzip: 104.26 kB
+
+✓ Built in ~800ms
+```
+
+---
+
+## 🚀 Deployment
+
+This project is configured for **Vercel** deployment:
+
+1. Connect your GitHub repo to Vercel
+2. Framework Preset: **Vite**
+3. Build Command: `npm run build`
+4. Output Directory: `dist`
+5. Deploy! ✅
 
 ---
 
 <div align="center">
 
-**DSA Mini Project — Case Study 5 · School of Future Tech · Group No. 5**
+### Built with ❤️ by Sahil Kumar
 
-[🚀 Live Demo](https://react-mini-project-flame-seven.vercel.app/) · Sahil Kumar 
+**Press `Space` to generate. Click to copy. Export to ship.**
+
+⭐ Star this repo if you found it useful!
 
 </div>
